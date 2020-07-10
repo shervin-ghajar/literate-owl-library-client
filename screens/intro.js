@@ -7,7 +7,6 @@ const Intro = ({
     params,
 }) => (
         <View style={styles.view}>
-
             <Image source={require('../assets/images/intro-icon.png')} style={styles.icon} />
             <View style={styles.titleContainer}>
                 <Text style={[styles.text, { color: dullOrange }]}>Literate Owl</Text>

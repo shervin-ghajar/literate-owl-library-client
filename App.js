@@ -7,7 +7,7 @@
  */
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -34,7 +34,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <PersistGate loading={this.LoadingView} persistor={persistor} onBeforeLift={this.onBeforeLift}>
+        <PersistGate loading={null} persistor={persistor} onBeforeLift={this.onBeforeLift}>
           <AuthStack />
         </PersistGate>
       </Provider>
