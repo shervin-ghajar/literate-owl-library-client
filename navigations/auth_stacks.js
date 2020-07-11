@@ -3,7 +3,6 @@ import React, { Component, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { fromLeft } from 'react-navigation-transitions';
 import { connect } from "react-redux";
 
 //----------------------------------------------------------------------------------------------
@@ -27,10 +26,8 @@ class AuthStacks extends Component {
         const config = {
             animation: 'spring',
             config: {
-                speed: 1000,
                 stiffness: 1000,
                 damping: 500,
-                bounciness: 1000,
                 mass: 3,
                 overshootClamping: true,
                 restDisplacementThreshold: 0.01,
