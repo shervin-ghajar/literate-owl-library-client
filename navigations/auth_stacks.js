@@ -3,6 +3,7 @@ import React, { Component, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { fromLeft } from 'react-navigation-transitions';
 import { connect } from "react-redux";
 
 //----------------------------------------------------------------------------------------------
@@ -17,26 +18,48 @@ class AuthStacks extends Component {
         };
     }
     componentDidMount() {
-        // setTimeout(() => {
-        //     this.setState({ isLoading: false })
-        // }, 3000);
+        setTimeout(() => {
+            this.setState({ isLoading: false })
+        }, 3000);
     }
+
     render() {
+        const config = {
+            animation: 'spring',
+            config: {
+                speed: 1000,
+                stiffness: 1000,
+                damping: 500,
+                bounciness: 1000,
+                mass: 3,
+                overshootClamping: true,
+                restDisplacementThreshold: 0.01,
+                restSpeedThreshold: 0.01,
+            },
+        };
         // console.warn("userToken", this.props.authenticationReducer.userToken)
         return (
             <>
-                {
-                    this.state.isLoading ?
-                        <Intro />
-                        :
-                        <NavigationContainer>
-                            <Stack.Navigator
-                                headerMode="none"
-                            >
-                                <Stack.Screen name="AppStacks" component={AppStacks} />
-                            </Stack.Navigator>
-                        </NavigationContainer>
-                }
+                <NavigationContainer>
+                    <Stack.Navigator
+                        headerMode="none"
+                    >
+                        {
+                            this.state.isLoading ?
+                                // <Intro />
+                                <Stack.Screen name="Intro" component={Intro} />
+                                :
+                                <Stack.Screen name="AppStacks" component={AppStacks}
+                                    options={{
+                                        transitionSpec: {
+                                            open: config,
+                                            // close: config,
+                                        },
+                                    }}
+                                />
+                        }
+                    </Stack.Navigator>
+                </NavigationContainer>
             </>
 
         );
