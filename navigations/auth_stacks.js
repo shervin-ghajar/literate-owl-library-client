@@ -4,10 +4,14 @@ import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from "react-redux";
-
 //----------------------------------------------------------------------------------------------
 import Intro from '../screens/intro';
+import Login from '../screens/authentucation/login';
+import Signup from '../screens/authentucation/signup';
 import AppStacks from './app_stacks';
+import CustomHeader from '../components/custom_stack_header';
+//----------------------------------------------------------------------------------------------
+const Stack = createStackNavigator();
 //----------------------------------------------------------------------------------------------
 class AuthStacks extends Component {
     constructor(props) {
@@ -19,7 +23,7 @@ class AuthStacks extends Component {
     componentDidMount() {
         setTimeout(() => {
             this.setState({ isLoading: false })
-        }, 3000);
+        }, 2000);
     }
 
     render() {
@@ -34,26 +38,55 @@ class AuthStacks extends Component {
                 restSpeedThreshold: 0.01,
             },
         };
-        // console.warn("userToken", this.props.authenticationReducer.userToken)
         return (
             <>
                 <NavigationContainer>
                     <Stack.Navigator
-                        headerMode="none"
+                        headerMode="screen"
+                        screenOptions={{
+                            header: (props) => <CustomHeader {...props} />
+                        }}
                     >
                         {
                             this.state.isLoading ?
-                                // <Intro />
-                                <Stack.Screen name="Intro" component={Intro} />
-                                :
-                                <Stack.Screen name="AppStacks" component={AppStacks}
+                                <Stack.Screen name="Intro" component={Intro}
                                     options={{
-                                        transitionSpec: {
-                                            open: config,
-                                            // close: config,
-                                        },
+                                        headerShown: false
                                     }}
                                 />
+                                :
+                                (
+                                    this.props.authenticationReducer.userToken ?// Must be !
+                                        <>
+                                            <Stack.Screen
+                                                name="Login"
+                                                component={Login}
+                                                options={{
+                                                    title: "Login"
+                                                }}
+                                            />
+                                            <Stack.Screen
+                                                name="Signup"
+                                                component={Signup}
+                                                options={{
+                                                    title: "Signup",
+                                                }}
+                                            />
+                                        </>
+                                        :
+
+                                        <Stack.Screen
+                                            name="AppStacks"
+                                            component={AppStacks}
+                                            options={{
+                                                // headerShown: false,
+                                                // transitionSpec: {
+                                                //     open: config,
+                                                //     // close: config,
+                                                // },
+                                            }}
+                                        />
+                                )
                         }
                     </Stack.Navigator>
                 </NavigationContainer>
@@ -62,8 +95,7 @@ class AuthStacks extends Component {
         );
     }
 }
-const Stack = createStackNavigator();
-
+//------------------------------------------------------------------------------------
 const mapStateToProps = state => {
     let { authenticationReducer } = state;
     return { authenticationReducer };
