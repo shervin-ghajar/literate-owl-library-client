@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 export default class BookStore extends Component {
     constructor(props) {
@@ -10,8 +10,11 @@ export default class BookStore extends Component {
 
     render() {
         return (
-            <View>
-                <Text> book_store </Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: "center" }}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate("Login")}>
+                    <Text> BookStore </Text>
+
+                </TouchableOpacity>
             </View>
         );
     }

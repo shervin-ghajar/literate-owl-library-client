@@ -8,12 +8,12 @@ import { connect } from "react-redux";
 import Intro from '../screens/intro';
 import Login from '../screens/authentucation/login';
 import Signup from '../screens/authentucation/signup';
-import AppStacks from './app_stacks';
+import Tabs from './tabs';
 import CustomHeader from '../components/custom_stack_header';
 //----------------------------------------------------------------------------------------------
 const Stack = createStackNavigator();
 //----------------------------------------------------------------------------------------------
-class AuthStacks extends Component {
+class Stacks extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -43,49 +43,51 @@ class AuthStacks extends Component {
                 <NavigationContainer>
                     <Stack.Navigator
                         headerMode="screen"
-                        screenOptions={{
-                            header: (props) => <CustomHeader {...props} />
-                        }}
+                    // screenOptions={{
+                    //     header: (props) => <CustomHeader {...props} />
+                    // }}
                     >
                         {
                             this.state.isLoading ?
-                                <Stack.Screen name="Intro" component={Intro}
+                                <Stack.Screen
+                                    name="Intro"
+                                    component={Intro}
                                     options={{
                                         headerShown: false
                                     }}
                                 />
                                 :
                                 (
-                                    this.props.authenticationReducer.userToken ?// Must be !
+                                    !this.props.authenticationReducer.userToken ?// Must be !
+                                        // Authentication Stacks
                                         <>
                                             <Stack.Screen
                                                 name="Login"
                                                 component={Login}
                                                 options={{
-                                                    title: "Login"
+                                                    headerShown: false
                                                 }}
                                             />
                                             <Stack.Screen
                                                 name="Signup"
                                                 component={Signup}
                                                 options={{
-                                                    title: "Signup",
+                                                    headerShown: false
                                                 }}
                                             />
                                         </>
                                         :
-
-                                        <Stack.Screen
-                                            name="AppStacks"
-                                            component={AppStacks}
-                                            options={{
-                                                // headerShown: false,
-                                                // transitionSpec: {
-                                                //     open: config,
-                                                //     // close: config,
-                                                // },
-                                            }}
-                                        />
+                                        // Application Stacks
+                                        <>
+                                            <Stack.Screen
+                                                name="Tabs"
+                                                component={Tabs}
+                                            />
+                                            <Stack.Screen
+                                                name="Login" // test
+                                                component={Login}
+                                            />
+                                        </>
                                 )
                         }
                     </Stack.Navigator>
@@ -108,4 +110,4 @@ const mapDispatchToProps = dispatch => {
         }
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(AuthStacks);
+export default connect(mapStateToProps, mapDispatchToProps)(Stacks);
