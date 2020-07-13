@@ -11,7 +11,7 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            email: "",
             password: ""
         };
     }
@@ -27,11 +27,11 @@ export default class Login extends Component {
                 </View>
                 <View style={styles.formsContainer}>
                     <Input
-                        value={this.state.username}
-                        labelTitle={"Username"}
+                        value={this.state.email}
+                        labelTitle={"E-mail Address"}
                         // onEndEditing={}
-                        onChangeText={username => {
-                            this.setState({ username });
+                        onChangeText={email => {
+                            this.setState({ email });
                         }}
                     />
                     <Input

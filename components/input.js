@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TextInput, View, Text } from 'react-native';
-import { secondaryBackground, darkSlateBlueColor, primaryBackground, blackColor, } from '../assets/colors';
+import { secondaryBackground, darkSlateBlueColor, primaryBackground, blackColor, errorColor } from '../assets/colors';
 
 export default class Input extends Component {
     constructor(props) {
@@ -45,14 +45,14 @@ export default class Input extends Component {
             borderColor = 'transparent';
         }
         else {
-            borderColor = "red";
+            borderColor = errorColor;
         }
         let maxHeight = this.props.numberOfLines && this.props.numberOfLines > 0 ? this.props.numberOfLines * 40 : 40;
         return (
             <View style={[{ marginBottom: 3 }, this.props.containerStyle]}>
                 {
                     this.props.labelTitle ?
-                        <Text style={[{ zIndex: 999, fontSize: 14, fontFamily: 'Roboto-Regular', color: this.props.error ? "red" : darkSlateBlueColor, textAlign: 'left', opacity: 0.7 }, this.props.labelStyle]}>
+                        <Text style={[{ zIndex: 999, fontSize: 14, fontFamily: 'Roboto-Regular', color: this.props.error ? errorColor : darkSlateBlueColor, textAlign: 'left', opacity: 0.7 }, this.props.labelStyle]}>
                             {this.props.labelTitle}
                         </Text>
                         : null
@@ -77,14 +77,14 @@ export default class Input extends Component {
                     onBlur={this.props.onBlur}
                     underlineColorAndroid='transparent'
                     placeholder={this.props.placeholder}
-                    placeholderTextColor={"red"}
+                    placeholderTextColor={errorColor}
                     secureTextEntry={this.props.isSecure}
                     style={[
                         {
                             borderColor: borderColor,
                             backgroundColor: primaryBackground,
                             borderBottomWidth: 1,
-                            borderBottomColor: this.props.error ? "red" : "#707D99",
+                            borderBottomColor: this.props.error ? errorColor : "#707D99",
                             color: blackColor,
                             fontSize: 16,
                             height: Math.min(maxHeight, Math.max(this.state.height, 40)),
@@ -93,7 +93,7 @@ export default class Input extends Component {
                         }, this.props.style]}
                 />
                 {/* {this.props.isAmount ? <Text style={{ position: "absolute", zIndex: 999, bottom: this.props.error ? 15 : 0, left: 10, fontSize: 10, padding: 3, fontFamily: 'Roboto-Regular', color: 'gray', textAlign: 'left' }}>تومان</Text> : null} */}
-                <Text style={[{ fontFamily: 'Roboto-Regular', fontSize: 12, color: "red", textAlign: 'left' }, this.props.errorStyle]}>{this.props.error || null}</Text>
+                <Text style={[{ fontFamily: 'Roboto-Regular', fontSize: 12, color: errorColor, textAlign: 'left' }, this.props.errorStyle]}>{this.props.error || null}</Text>
             </View>
         );
     }
