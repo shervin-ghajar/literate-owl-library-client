@@ -12,10 +12,10 @@ export default class Signup extends Component {
         super(props);
         this.state = {
             username: "",
-            email: "",
-            password: "",
             usernameErr: "",
+            email: "",
             emailErr: "",
+            password: "",
             passwordErr: ""
         };
         this.isFormValidate = this.isFormValidate.bind(this);
@@ -29,8 +29,8 @@ export default class Signup extends Component {
     }
     isFormValidate() {
         return (
-            this.validate(this.state.username, 'username')
-            && this.validate(this.state.email, 'email')
+            this.validate(this.state.email, 'email')
+            && this.validate(this.state.username, 'username')
             && this.validate(this.state.password, 'password')
         )
     }
@@ -48,7 +48,7 @@ export default class Signup extends Component {
                     this.setState({ usernameErr: "" });
                     return true
                 }
-                this.setState({ usernameErr: 'Username must be minimum 5 characters only use letters (a-z), numbers and periods!' });
+                this.setState({ usernameErr: 'Username should contain minimum 5 characters, only use letters (a-z), numbers and periods!' });
                 return false
             }
         } else if (type == 'email') {
@@ -72,7 +72,7 @@ export default class Signup extends Component {
                     this.setState({ passwordErr: "" });
                     return true
                 }
-                this.setState({ passwordErr: 'Password must be minimum 5 characters and have at least one letter and one number!' });
+                this.setState({ passwordErr: 'Password should contain minimum 5 characters and have at least one letter and one number!' });
                 return false
             }
         }
@@ -89,20 +89,6 @@ export default class Signup extends Component {
                 </View>
                 <View style={styles.formsContainer}>
                     <Input
-                        value={this.state.username}
-                        labelTitle={"Username"}
-                        onEndEditing={(e) => {
-                            let username = (e.nativeEvent.text).trim()
-                            this.setState({ username }, () => {
-                                this.validate(username, 'username')
-                            })
-                        }}
-                        onChangeText={username => {
-                            this.setState({ username });
-                        }}
-                        error={this.state.usernameErr}
-                    />
-                    <Input
                         value={this.state.email}
                         labelTitle={"E-mail Address"}
                         onEndEditing={(e) => {
@@ -115,6 +101,20 @@ export default class Signup extends Component {
                             this.setState({ email });
                         }}
                         error={this.state.emailErr}
+                    />
+                    <Input
+                        value={this.state.username}
+                        labelTitle={"Username"}
+                        onEndEditing={(e) => {
+                            let username = (e.nativeEvent.text).trim()
+                            this.setState({ username }, () => {
+                                this.validate(username, 'username')
+                            })
+                        }}
+                        onChangeText={username => {
+                            this.setState({ username });
+                        }}
+                        error={this.state.usernameErr}
                     />
                     <Input
                         value={this.state.password}
