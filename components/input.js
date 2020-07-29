@@ -67,6 +67,7 @@ export default class Input extends Component {
                     returnKeyType={this.props.returnKeyType ? this.props.returnKeyType : 'done'}
                     ref={ref => this.textInput = ref}
                     value={this.props.value}
+                    autoCapitalize={this.props.autoCapitalize}
                     keyboardType={this.props.keyboardType}
                     numberOfLines={this.props.numberOfLines}
                     multiline={this.props.multiline}

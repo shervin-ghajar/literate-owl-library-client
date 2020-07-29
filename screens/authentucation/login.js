@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
+import { connect } from "react-redux";
 //-----------------------------------------------------------------------------------------
 import { primaryBackground, darkSlateBlueColor, greyBlueColor, blackColor } from '../../assets/colors';
 import Input from '../../components/input';
 import ButtonR1 from '../../components/buttons/buttonR1';
+import { login } from '../../actions';
 //-----------------------------------------------------------------------------------------
-
-
-export default class Login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +22,8 @@ export default class Login extends Component {
 
     handleLogin() {
         if (this.isFormValidate()) {
-            console.warn(this.state.email)
+            console.warn(this.state.email, this.state.password)
+            this.props.onLogin(this.state.email, this.state.password)
         }
     }
 
@@ -53,6 +54,7 @@ export default class Login extends Component {
                 this.setState({ passwordErr: 'Please enter password!' });
                 return false
             }
+            this.setState({ passwordErr: "" });
             return true
         }
     }
@@ -69,6 +71,7 @@ export default class Login extends Component {
                 <View style={styles.formsContainer}>
                     <Input
                         value={this.state.email}
+                        autoCapitalize='none'
                         labelTitle={"E-mail Address"}
                         onEndEditing={(e) => {
                             let email = (e.nativeEvent.text).trim()
@@ -84,6 +87,7 @@ export default class Login extends Component {
                     <Input
                         value={this.state.password}
                         labelTitle={"Password"}
+                        autoCapitalize='none'
                         isSecure
                         onEndEditing={(e) => {
                             let password = (e.nativeEvent.text).trim()
@@ -165,3 +169,20 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     }
 })
+// ----------------------------------------------------------------
+const mapStateToProps = state => {
+    let { loginReducer } = state;
+    return {
+        loginReducer
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogin: (email, password) => {
+            dispatch(login(email, password));
+        }
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+// ----------------------------------------------------------------

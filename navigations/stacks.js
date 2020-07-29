@@ -17,7 +17,8 @@ class Stacks extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: true
+            isLoading: true,
+            update: false
         };
     }
     componentDidMount() {
