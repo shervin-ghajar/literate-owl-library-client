@@ -9,7 +9,11 @@ import Intro from '../screens/intro';
 import Login from '../screens/authentucation/login';
 import Signup from '../screens/authentucation/signup';
 import Tabs from './tabs';
+import NavigationService from '../services/navigators';
 import CustomHeader from '../components/custom_stack_header';
+import Profile from '../screens/application/profile';
+import { getProfile } from '../actions';
+import { GET_PROFILE_SUCCESS, GET_PROFILE_DEFAULT, GET_PROFILE_STARTED } from '../actions/types';
 //----------------------------------------------------------------------------------------------
 const Stack = createStackNavigator();
 //----------------------------------------------------------------------------------------------
@@ -23,6 +27,9 @@ class Stacks extends Component {
     }
     componentDidMount() {
         setTimeout(() => {
+            if (this.props.authenticationReducer.userToken) {
+                this.props.onGetProfile(this.props.authenticationReducer.userToken)
+            }
             this.setState({ isLoading: false })
         }, 2000);
     }
@@ -41,16 +48,22 @@ class Stacks extends Component {
         };
         return (
             <>
-                <NavigationContainer>
+                <NavigationContainer
+                    ref={navigationRef => {
+                        this.navigationRef = navigationRef;
+                        NavigationService.setContainer(navigationRef, () => this.setState({ update: !this.state.update }));
+                    }}
+                >
                     <Stack.Navigator
                         headerMode="screen"
+                        initialRouteName={this.props.authenticationReducer.userToken ? "Tabs" : "Login"}
                     // screenOptions={{
                     //     header: (props) => <CustomHeader {...props} />
                     // }}
                     >
                         {
                             this.state.isLoading ?
-                                <Stack.Screen
+                                < Stack.Screen
                                     name="Intro"
                                     component={Intro}
                                     options={{
@@ -85,8 +98,8 @@ class Stacks extends Component {
                                                 component={Tabs}
                                             />
                                             <Stack.Screen
-                                                name="Login" // test
-                                                component={Login}
+                                                name="Profile"
+                                                component={Profile}
                                             />
                                         </>
                                 )
@@ -98,16 +111,17 @@ class Stacks extends Component {
         );
     }
 }
+
 //------------------------------------------------------------------------------------
 const mapStateToProps = state => {
-    let { authenticationReducer } = state;
-    return { authenticationReducer };
+    let { authenticationReducer, profileReducer } = state;
+    return { authenticationReducer, profileReducer };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSync: (userToken) => {
-            dispatch(sync({ userToken }))
+        onGetProfile: (userToken) => {
+            dispatch(getProfile(userToken))
         }
     };
 };

@@ -38,7 +38,7 @@ export const loginAPI = (agent, email, password) => {
             return res.data
         })
         .catch(err => {
-            console.warn("loginAPI_catch", err.response);
+            console.warn("loginAPI_catch", err.response.status);
             let errorCode = 0;
             if ("response" in err
                 && err.response
@@ -63,7 +63,7 @@ export const loginAPI = (agent, email, password) => {
         });
 };
 // ----------------------------------------------------------------
-export const signupAPI = (agent, username, email, password) => {
+export const signupAPI = (agent, email, username, password) => {
     let { timeout, source } = createTimeout();
     let body = {
         "username": username,
@@ -81,32 +81,17 @@ export const signupAPI = (agent, username, email, password) => {
             })
         .then(res => {
             clearTimeout(timeout);
-            if (res.error) {
-                return Promise.reject({
-                    ecode: "Services:APIs:Registration:Signup:1",
-                    err: error
-                });
-            }
+            console.warn("res", res)
             return res.data
         })
         .catch(err => {
-            console.warn("signupAPI_catch", err);
+            console.warn("signupAPI_catch", err.response.status);
             let errorCode = 0;
             if ("response" in err
                 && err.response
                 && "status" in err.response
                 && err.response.status) {
-                switch (err.response.status) {
-                    case 400:
-                        errorCode = 400;
-                        break;
-                    case 404:
-                        errorCode = 404;
-                        break;
-                    default:
-                        errorCode = 401;
-                        break;
-                }
+                errorCode = err.response.status
             }
             return Promise.reject({
                 ecode: "Services:APIs:User:Authentication:Signup:2",
@@ -130,16 +115,10 @@ export const logoutAPI = (agent, userToken) => {
         )
         .then(res => {
             clearTimeout(timeout);
-            if (res.error) {
-                return Promise.reject({
-                    ecode: "Services:APIs:Registration:Logout:1",
-                    err: error
-                });
-            }
             return res.data
         })
         .catch(err => {
-            console.warn("logoutAPI_catch", err);
+            console.warn("logoutAPI_catch", err.response.status);
             let errorCode = 0;
             if ("response" in err
                 && err.response

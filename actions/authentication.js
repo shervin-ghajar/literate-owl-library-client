@@ -3,55 +3,114 @@ import {
     AUTHENTICATION_STARTED,
     AUTHENTICATION_SUCCESS,
     AUTHENTICATION_FAILURE_NETWORK,
-    AUTHENTICATION_FAILURE_VALIDATION
+    AUTHENTICATION_FAILURE_VALIDATION,
+    AUTHENTICATION_RESET,
+    GET_PROFILE_SUCCESS
 } from "./types";
-// import NavigationService from '../services/navigator';
+import NavigationService from '../services/navigators';
 import DeviceInfo from 'react-native-device-info';
-import { loginAPI } from "../services/apis/user/authentication";
+import { loginAPI, signupAPI, logoutAPI } from "../services/apis/user/authentication";
 // ----------------------------------------------------------------
 export const login = (email, password) => {
     return dispatch => {
         dispatch(authenticationReset())
-        dispatch(loginStarted());
+        dispatch(authenticationStarted());
         const agent = DeviceInfo.getUniqueId();
-        console.warn("agent", agent)
         loginAPI(agent, email, password)
             .then(res => {
-                if (res.result && 'token' in res.result && res.result.token) {
-                    dispatch(loginSuccess({ userToken: res.result.token, agent }));
-                    console.warn("token", res.result.token)
-                    // NavigationService.navigate('Verify');
+                if (res.result
+                    && 'token' in res.result
+                    && 'profile' in res.result
+                    && res.result.token
+                    && res.result.profile) {
+                    dispatch(authenticationSuccess({ userToken: res.result.token, agent }));
+                    dispatch(getProfileSuccess(res.result.profile))
+                    console.warn(res.result.profile)
                     return;
                 }
                 console.warn("BAD_RESPONSE")
-                dispatch(loginFailure("BAD_RESPONSE"));
+                dispatch(authenticationFailure("BAD_RESPONSE"));
             })
             .catch(err => {
                 console.warn(err.ecode, err.errorCode)
-                dispatch(loginFailure(err.ecode));
+                dispatch(authenticationFailure(err.ecode));
             });
     };
 };
-
+// ----------------------------------------------------------------
+export const signup = (email, username, password) => {
+    return dispatch => {
+        dispatch(authenticationReset())
+        dispatch(authenticationStarted());
+        const agent = DeviceInfo.getUniqueId();
+        signupAPI(agent, email, username, password)
+            .then(res => {
+                if (res.result && 'token' in res.result && res.result.token) {
+                    dispatch(authenticationSuccess({ userToken: res.result.token, agent }));
+                    let profile = {
+                        email,
+                        username,
+                        balance: 0,
+                        wishlist: [],
+                        purchased: [],
+                    }
+                    dispatch(getProfileSuccess(profile))
+                    return;
+                }
+                console.warn("BAD_RESPONSE")
+                dispatch(authenticationFailure("BAD_RESPONSE"));
+            })
+            .catch(err => {
+                console.warn(err.ecode, err.errorCode)
+                dispatch(authenticationFailure(err.ecode));
+            });
+    };
+};
+// ----------------------------------------------------------------
+export const logout = (agent, userToken) => {
+    return dispatch => {
+        dispatch(logoutStarted());
+        logoutAPI(agent, userToken)
+            .then(res => {
+                if (res.result && 'error' in res.result && !res.result.error) {
+                    dispatch(authenticationReset())
+                    return;
+                }
+                console.warn("BAD_RESPONSE")
+                dispatch(logoutFailure("BAD_RESPONSE"));
+            })
+            .catch(err => {
+                console.warn(err.ecode, err.errorCode)
+                dispatch(logoutFailure(err.ecode));
+            });
+    };
+};
+// ----------------------------------------------------------------
 const authenticationReset = () => ({
-    type: AUTHENTICATION_DEFAULT
+    type: AUTHENTICATION_RESET
 });
 
-const loginStarted = () => ({
+const authenticationStarted = () => ({
     type: AUTHENTICATION_STARTED
 });
 
-const loginSuccess = data => ({
+const authenticationSuccess = data => ({
     type: AUTHENTICATION_SUCCESS,
     payload: {
         ...data
     }
 });
 
-const loginFailure = error => ({
+const authenticationFailure = error => ({
     type: AUTHENTICATION_FAILURE_NETWORK,
     payload: {
         error
     }
 });
 // ----------------------------------------------------------------
+const getProfileSuccess = data => ({
+    type: GET_PROFILE_SUCCESS,
+    payload: {
+        ...data
+    }
+});

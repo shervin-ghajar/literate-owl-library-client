@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
+import { connect } from "react-redux";
 //-----------------------------------------------------------------------------------------
 import { primaryBackground, darkSlateBlueColor, greyBlueColor, blackColor } from '../../assets/colors';
 import Input from '../../components/input';
 import ButtonR1 from '../../components/buttons/buttonR1';
+import { signup } from '../../actions';
+import { AUTHENTICATION_STARTED } from '../../actions/types';
 //-----------------------------------------------------------------------------------------
-
-
-export default class Signup extends Component {
+class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,7 +25,7 @@ export default class Signup extends Component {
     }
     handleSignup() {
         if (this.isFormValidate()) {
-
+            this.props.onSignup(this.state.email, this.state.username, this.state.password)
         }
     }
     isFormValidate() {
@@ -133,8 +134,16 @@ export default class Signup extends Component {
                     />
                 </View>
                 <View style={styles.footerContainer}>
-                    <ButtonR1 onPress={() => this.handleSignup()} text="Sign Up" containerStyle={{ width: 235 }} />
-                    <View style={{ flexDirection: "row", marginTop: 15 }}>
+                    <ButtonR1
+                        onPress={() => this.handleSignup()}
+                        text="Sign Up"
+                        containerStyle={{ width: 235 }}
+                        disabled={this.props.authenticationReducer.rtype == AUTHENTICATION_STARTED}
+                    />
+                    <View
+                        style={{ flexDirection: "row", marginTop: 15 }}
+                        pointerEvents={this.props.authenticationReducer.rtype == AUTHENTICATION_STARTED ? 'none' : null}
+                    >
                         <Text style={{ color: blackColor, marginRight: 5 }}>Already a member?</Text>
                         <TouchableOpacity hitSlop={{ top: 10, bottom: 50, right: 50, left: 50 }} onPress={() => this.props.navigation.goBack()}>
                             <Text style={styles.signupStyle}>Log In</Text>
@@ -194,3 +203,21 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     }
 })
+// ----------------------------------------------------------------
+
+const mapStateToProps = state => {
+    let { authenticationReducer } = state;
+    return {
+        authenticationReducer
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSignup: (email, username, password) => {
+            dispatch(signup(email, username, password));
+        }
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+// ----------------------------------------------------------------

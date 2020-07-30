@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { persistor, store } from './services/store';
 //------------------------------------------------------------------------------------------
+
 import Stacks from './navigations/stacks';
 import { primaryBackground } from './assets/colors';
 //------------------------------------------------------------------------------------------
@@ -35,7 +36,9 @@ class App extends Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor} onBeforeLift={this.onBeforeLift}>
-          <Stacks />
+          <Stacks
+
+          />
         </PersistGate>
       </Provider>
     );

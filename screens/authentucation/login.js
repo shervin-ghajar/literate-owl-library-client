@@ -6,6 +6,7 @@ import { primaryBackground, darkSlateBlueColor, greyBlueColor, blackColor } from
 import Input from '../../components/input';
 import ButtonR1 from '../../components/buttons/buttonR1';
 import { login } from '../../actions';
+import { AUTHENTICATION_STARTED } from '../../actions/types';
 //-----------------------------------------------------------------------------------------
 class Login extends Component {
     constructor(props) {
@@ -22,7 +23,6 @@ class Login extends Component {
 
     handleLogin() {
         if (this.isFormValidate()) {
-            console.warn(this.state.email, this.state.password)
             this.props.onLogin(this.state.email, this.state.password)
         }
     }
@@ -60,6 +60,7 @@ class Login extends Component {
     }
 
     render() {
+        console.warn(this.props.authenticationReducer.rtype)
         return (
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.headerContainer}>
@@ -108,8 +109,12 @@ class Login extends Component {
                     <ButtonR1
                         onPress={() => this.handleLogin()}
                         text="Log In" containerStyle={{ width: 235 }}
+                        disabled={this.props.authenticationReducer.rtype == AUTHENTICATION_STARTED}
                     />
-                    <View style={{ flexDirection: "row", marginTop: 15 }}>
+                    <View
+                        style={{ flexDirection: "row", marginTop: 15 }}
+                        pointerEvents={this.props.authenticationReducer.rtype == AUTHENTICATION_STARTED ? 'none' : null}
+                    >
                         <Text style={{ color: blackColor, marginRight: 5 }}>Don’t have an account?</Text>
                         <TouchableOpacity hitSlop={{ top: 10, bottom: 50, right: 50, left: 50 }} onPress={() => this.props.navigation.navigate("Signup")}>
                             <Text style={styles.signupStyle}>Sign Up</Text>
@@ -171,9 +176,9 @@ const styles = StyleSheet.create({
 })
 // ----------------------------------------------------------------
 const mapStateToProps = state => {
-    let { loginReducer } = state;
+    let { authenticationReducer } = state;
     return {
-        loginReducer
+        authenticationReducer
     };
 };
 

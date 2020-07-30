@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-
+import ButtonR1 from '../../components/buttons/buttonR1';
+//------------------------------------------------------------------------------------------
 export default class Profile extends Component {
     constructor(props) {
         super(props);
@@ -11,7 +12,9 @@ export default class Profile extends Component {
     render() {
         return (
             <View>
-                <Text> profile </Text>
+                <ButtonR1
+                    onPress={() => { }}
+                    text={"Logout"} />
             </View>
         );
     }

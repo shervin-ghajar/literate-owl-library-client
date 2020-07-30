@@ -4,18 +4,18 @@ import {
     AUTHENTICATION_STARTED,
     AUTHENTICATION_SUCCESS,
     AUTHENTICATION_FAILURE_NETWORK,
-    AUTHENTICATION_FAILURE_VALIDATION
+    AUTHENTICATION_FAILURE_VALIDATION,
+    AUTHENTICATION_RESET
 } from '../actions/types';
 // ----------------------------------------------------------------
 const initialState = {
     rtype: AUTHENTICATION_DEFAULT,
-    agent: null,
     userToken: null,
     error: null
 };
 export function authenticationReducer(state = initialState, action) {
     switch (action.type) {
-        case AUTHENTICATION_DEFAULT:
+        case AUTHENTICATION_RESET:
             return {
                 ...initialState
             };
@@ -28,6 +28,7 @@ export function authenticationReducer(state = initialState, action) {
                 error: null
             };
         case AUTHENTICATION_SUCCESS:
+            console.warn("token", action.payload)
             return {
                 ...state,
                 rtype: AUTHENTICATION_SUCCESS,
