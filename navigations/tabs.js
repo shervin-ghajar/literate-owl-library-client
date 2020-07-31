@@ -6,7 +6,7 @@ import BookStore from '../screens/application/book_store';
 import Search from '../screens/application/search';
 import Profile from '../screens/application/profile';
 import CustomBottomTab from '../components/custom_bottom_tab';
-import { blackColor, grayColor, veryLightGrayColor } from '../assets/colors';
+import { blackColor, grayColor, veryLightGrayColor, primaryBackground } from '../assets/colors';
 //-----------------------------------------------------------------------------
 const Tab = createBottomTabNavigator();
 //-----------------------------------------------------------------------------
@@ -49,7 +49,7 @@ export default class AppStacks extends Component {
                 })}
                 tabBarOptions={{
                     tabStyle: {
-                        backgroundColor: veryLightGrayColor,
+                        backgroundColor: primaryBackground,
                     },
                     activeTintColor: blackColor,
                     // activeBackgroundColor: "lightgray",

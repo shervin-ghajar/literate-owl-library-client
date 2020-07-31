@@ -1,10 +1,10 @@
 import {
     AUTHENTICATION_RESET,
-    GET_PROFILE_DEFAULT,
-    GET_PROFILE_STARTED,
-    GET_PROFILE_SUCCESS,
-    GET_PROFILE_FAILURE_NETWORK,
-    GET_PROFILE_FAILURE_VALIDATION,
+    GET_ALL_BOOKS_DEFAULT,
+    GET_ALL_BOOKS_STARTED,
+    GET_ALL_BOOKS_SUCCESS,
+    GET_ALL_BOOKS_FAILURE_NETWORK,
+    GET_ALL_BOOKS_FAILURE_VALIDATION,
 } from "./types";
 import NavigationService from '../services/navigators';
 import DeviceInfo from 'react-native-device-info';
@@ -61,18 +61,18 @@ export const updateProfile = (userToken, username, password) => {
 // ----------------------------------------------------------------
 
 const getProfileStarted = () => ({
-    type: GET_PROFILE_STARTED
+    type: GET_ALL_BOOKS_STARTED
 });
 
 const getProfileSuccess = data => ({
-    type: GET_PROFILE_SUCCESS,
+    type: GET_ALL_BOOKS_SUCCESS,
     payload: {
         ...data
     }
 });
 
 const getProfileFailure = error => ({
-    type: GET_PROFILE_FAILURE_NETWORK,
+    type: GET_ALL_BOOKS_FAILURE_NETWORK,
     payload: {
         error
     }
