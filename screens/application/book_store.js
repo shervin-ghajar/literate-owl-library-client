@@ -1,66 +1,148 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { connect } from 'react-redux';
 // import CardB1 from '../../components/cards/cardB1';
 import CardS1 from '../../components/cards/cardS1';
 import CardB1 from '../../components/cards/cardB1';
+import { getAllBooks } from '../../actions';
+import { GET_ALL_BOOKS_SUCCESS, GET_ALL_BOOKS_DEFAULT, GET_ALL_BOOKS_STARTED, GET_ALL_BOOKS_FAILURE_NETWORK } from '../../actions/types';
+import Loading from '../../components/loading';
+import ButtonR1 from '../../components/buttons/buttonR1';
+import { dullOrangeColor } from '../../assets/colors';
+import { set } from 'react-native-reanimated';
 //-----------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------
 class BookStore extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            update: false
         };
+        this.getAllBooks = this.getAllBooks.bind(this)
     }
 
     componentDidMount() {
-        this.props.onGetAllBooks(this.props.authenticationReducer.userToken)
+        if (this.props.booksReducer.rtype != GET_ALL_BOOKS_SUCCESS)
+            this.getAllBooks()
     }
 
-    render() {
+    getAllBooks() {
+        this.props.onGetAllBooks(this.props.authenticationReducer.userToken)
+        setTimeout(() => {
+            console.warn(222)
+            this.setState(state => ({
+                update: !state.update
+            }))
+        }, 3000);
+    }
+
+    renderWithLoading() {
+        return <Loading />
+    }
+
+    renderWithReload() {
+        return (
+            <View style={styles.reloadView}>
+                <ButtonR1
+                    onPress={() => this.getAllBooks()}
+                    containerStyle={{ width: 235 }}
+                    btnStyle={{ backgroundColor: dullOrangeColor }}
+                    text={'Try Again'}
+                />
+            </View>
+        )
+    }
+
+    renderDefault() {
+        let newBooks = []
+        let freeBooks = []
+        let popularBooks = []
+        if (this.props.booksReducer.rtype == GET_ALL_BOOKS_SUCCESS) {
+            newBooks = this.props.booksReducer.newBooks.map((newBook, i) => {
+                let { id, title, authors, price, image_url } = newBook
+                return (
+                    <CardB1
+                        key={id}
+                        onCardBPress={() => { console.warn(123) }}
+                        imageSource={image_url}
+                        first_text={title}
+                        second_text={authors[0]}
+                        third_text={price}
+                    />
+                )
+            })
+            freeBooks = this.props.booksReducer.freeBooks.map(freeBook => {
+                let { id, title, authors, price, image_url } = freeBook
+                return (
+                    <CardB1
+                        key={id}
+                        onCardBPress={() => { console.warn(123) }}
+                        imageSource={image_url}
+                        first_text={title}
+                        second_text={authors[0]}
+                        third_text={price}
+                    />
+                )
+            })
+            popularBooks = this.props.booksReducer.popularBooks.map(popularBook => {
+                let { id, title, authors, price, image_url } = popularBook
+                return (
+                    <CardB1
+                        key={id}
+                        onCardBPress={() => { console.warn(123) }}
+                        imageSource={image_url}
+                        first_text={title}
+                        second_text={authors[0]}
+                        third_text={price}
+                    />
+                )
+            })
+
+        }
         return (
             <View style={styles.container}>
                 <ScrollView>
                     <CardS1 title={"New Releases"} subTitle={"Recently released books."} >
-                        <CardB1
-                            onCardBPress={() => { console.warn(123) }}
-                            first_text={"The Lord of the Rings: The Fellowship of the Ring"}
-                            second_text={"J. R. R. Talkin"}
-                            third_text={"$9.99"}
-                        />
+                        {newBooks}
                     </CardS1>
                     <CardS1 title={"Free"} subTitle={"Free books of the week"} >
-                        <CardB1
-                            onCardBPress={() => { console.warn(123) }}
-                            first_text={"The Lord of the Rings: The Fellowship of the Ring"}
-                            second_text={"J. R. R. Talkin"}
-                            third_text={"$9.99"}
-                        />
+                        {freeBooks}
                     </CardS1>
                     <CardS1 title={"You Must Read"} subTitle={"Most rated 100 books written by the best authors."}>
-                        <CardB1
-                            onCardBPress={() => { console.warn(123) }}
-                            first_text={"The Lord of the Rings: The Fellowship of the Ring"}
-                            second_text={"J. R. R. Talkin"}
-                            third_text={"$9.99"}
-                        />
+                        {popularBooks}
                     </CardS1>
                 </ScrollView>
             </View>
-        );
+        )
+    }
+
+    render() {
+        if (this.props.booksReducer.rtype == GET_ALL_BOOKS_DEFAULT) {
+            return this.renderWithLoading()
+        } else if (this.props.booksReducer.rtype == GET_ALL_BOOKS_STARTED) {
+            return this.renderWithLoading()
+        } else if (this.props.booksReducer.rtype == GET_ALL_BOOKS_SUCCESS) {
+            return this.renderDefault()
+        } else if (this.props.booksReducer.rtype == GET_ALL_BOOKS_FAILURE_NETWORK) {
+            return this.renderWithReload()
+        }
     }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: "red"
     },
+    reloadView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: "center"
+    }
 })
 //------------------------------------------------------------------------------------
 const mapStateToProps = state => {
-    let { authenticationReducer } = state;
-    return { authenticationReducer };
+    let { authenticationReducer, booksReducer } = state;
+    return { authenticationReducer, booksReducer };
 };
 
 const mapDispatchToProps = dispatch => {

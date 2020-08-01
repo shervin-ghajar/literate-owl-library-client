@@ -34,7 +34,6 @@ export const loginAPI = (agent, email, password) => {
         )
         .then(res => {
             clearTimeout(timeout);
-            console.warn(res)
             return res.data
         })
         .catch(err => {
@@ -44,17 +43,7 @@ export const loginAPI = (agent, email, password) => {
                 && err.response
                 && "status" in err.response
                 && err.response.status) {
-                switch (err.response.status) {
-                    case 400:
-                        errorCode = 400;
-                        break;
-                    case 404:
-                        errorCode = 404;
-                        break;
-                    default:
-                        errorCode = 401;
-                        break;
-                }
+                errorCode = err.response.status
             }
             return Promise.reject({
                 ecode: "Services:APIs:User:Authentication:Login:2",
@@ -81,7 +70,6 @@ export const signupAPI = (agent, email, username, password) => {
             })
         .then(res => {
             clearTimeout(timeout);
-            console.warn("res", res)
             return res.data
         })
         .catch(err => {
@@ -101,10 +89,12 @@ export const signupAPI = (agent, email, username, password) => {
 };
 // ----------------------------------------------------------------
 export const logoutAPI = (agent, userToken) => {
+    console.warn(agent, userToken)
     let { timeout, source } = createTimeout();
     return theAxios
-        .delete(
+        .post(
             `${serverIPAddress}/user/authentication/logout`,
+            {},
             {
                 cancelToken: source.token,
                 headers: {
@@ -124,17 +114,7 @@ export const logoutAPI = (agent, userToken) => {
                 && err.response
                 && "status" in err.response
                 && err.response.status) {
-                switch (err.response.status) {
-                    case 400:
-                        errorCode = 400;
-                        break;
-                    case 404:
-                        errorCode = 404;
-                        break;
-                    default:
-                        errorCode = 401;
-                        break;
-                }
+                errorCode = err.response.status
             }
             return Promise.reject({
                 ecode: "Services:APIs:User:Authentication:Logout:2",

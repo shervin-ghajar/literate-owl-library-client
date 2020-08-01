@@ -3,14 +3,14 @@ import { Text, View, TouchableOpacity, StyleSheet, Dimensions } from 'react-nati
 import { greyBlueBackground, whiteColor } from '../../assets/colors';
 //--------------------------------------------------------------------------------------------
 const ButtonR1 = ({
-    onPress, text, disabled, containerStyle
+    onPress, text, disabled, containerStyle, btnStyle
 }) => (
         <TouchableOpacity
             onPress={onPress}
             disabled={disabled}
             style={[{ opacity: disabled ? 0.5 : 1 }, containerStyle]}
         >
-            <View style={styles.btnContainer}>
+            <View style={[styles.btnContainer, btnStyle]}>
                 <Text style={styles.text}>{text}</Text>
             </View>
         </TouchableOpacity >

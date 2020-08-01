@@ -12,7 +12,7 @@ import Tabs from './tabs';
 import NavigationService from '../services/navigators';
 import CustomHeader from '../components/custom_stack_header';
 import Profile from '../screens/application/profile';
-import { getProfile } from '../actions';
+import { getProfile, getAllBooks } from '../actions';
 import { GET_PROFILE_SUCCESS, GET_PROFILE_DEFAULT, GET_PROFILE_STARTED } from '../actions/types';
 //----------------------------------------------------------------------------------------------
 const Stack = createStackNavigator();
@@ -26,10 +26,11 @@ class Stacks extends Component {
         };
     }
     componentDidMount() {
+        if (this.props.authenticationReducer.userToken) {
+            this.props.onGetProfile(this.props.authenticationReducer.userToken)
+            // this.props.onGetAllBooks(this.props.authenticationReducer.userToken)
+        }
         setTimeout(() => {
-            if (this.props.authenticationReducer.userToken) {
-                this.props.onGetProfile(this.props.authenticationReducer.userToken)
-            }
             this.setState({ isLoading: false })
         }, 2000);
     }
@@ -122,6 +123,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onGetProfile: (userToken) => {
             dispatch(getProfile(userToken))
+        },
+        onGetAllBooks: (userToken) => {
+            dispatch(getAllBooks(userToken))
         }
     };
 };

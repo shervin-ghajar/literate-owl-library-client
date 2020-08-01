@@ -2,9 +2,10 @@ import { combineReducers } from 'redux';
 // ----------------------------------------------------------------
 import { authenticationReducer } from './authentication';
 import { profileReducer } from './profile'
+import { booksReducer } from './books';
 // ----------------------------------------------------------------
 const appReducer = combineReducers({
-    authenticationReducer, profileReducer
+    authenticationReducer, profileReducer, booksReducer
 });
 
 const initialState = appReducer({}, {})

@@ -16,7 +16,11 @@ export const getProfile = (userToken) => {
         const agent = DeviceInfo.getUniqueId();
         getProfileAPI(agent, userToken)
             .then(res => {
-                if (res && 'error' in res && !res.error) {
+                if (res
+                    && 'error' in res
+                    && !res.error
+                    && 'result' in res
+                    && res.result) {
                     dispatch(getProfileSuccess(res.result))
                     return;
                 }

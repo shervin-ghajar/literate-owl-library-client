@@ -40,17 +40,7 @@ export const getProfileAPI = (agent, userToken) => {
                 && err.response
                 && "status" in err.response
                 && err.response.status) {
-                switch (err.response.status) {
-                    case 400:
-                        errorCode = 400;
-                        break;
-                    case 404:
-                        errorCode = 404;
-                        break;
-                    default:
-                        errorCode = 401;
-                        break;
-                }
+                errorCode = err.response.status
             }
             return Promise.reject({
                 ecode: "Services:APIs:User:Profile:GetProfile:2",
@@ -77,7 +67,6 @@ export const updateProfileAPI = (agent, userToken, username, password) => {
             })
         .then(res => {
             clearTimeout(timeout);
-            console.warn("res", res)
             return res.data
         })
         .catch(err => {

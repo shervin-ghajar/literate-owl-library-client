@@ -5,7 +5,11 @@ import {
     AUTHENTICATION_FAILURE_NETWORK,
     AUTHENTICATION_FAILURE_VALIDATION,
     AUTHENTICATION_RESET,
-    GET_PROFILE_SUCCESS
+    GET_PROFILE_SUCCESS,
+    LOGOUT_STARTED,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILURE_NETWORK,
+    LOGOUT_FAILURE_VALIDATION,
 } from "./types";
 import NavigationService from '../services/navigators';
 import DeviceInfo from 'react-native-device-info';
@@ -67,12 +71,13 @@ export const signup = (email, username, password) => {
     };
 };
 // ----------------------------------------------------------------
-export const logout = (agent, userToken) => {
+export const logout = (userToken) => {
     return dispatch => {
         dispatch(logoutStarted());
+        const agent = DeviceInfo.getUniqueId();
         logoutAPI(agent, userToken)
             .then(res => {
-                if (res.result && 'error' in res.result && !res.result.error) {
+                if (res && 'error' in res && !res.error) {
                     dispatch(authenticationReset())
                     return;
                 }
@@ -103,6 +108,24 @@ const authenticationSuccess = data => ({
 
 const authenticationFailure = error => ({
     type: AUTHENTICATION_FAILURE_NETWORK,
+    payload: {
+        error
+    }
+});
+// ----------------------------------------------------------------
+const logoutStarted = () => ({
+    type: LOGOUT_STARTED
+});
+
+const logoutSuccess = data => ({
+    type: LOGOUT_SUCCESS,
+    payload: {
+        ...data
+    }
+});
+
+const logoutFailure = error => ({
+    type: LOGOUT_FAILURE_NETWORK,
     payload: {
         error
     }
