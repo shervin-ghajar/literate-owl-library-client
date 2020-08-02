@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import FastImage from 'react-native-fast-image'
-import { dullOrangeColor, greyBlueColor } from '../../assets/colors';
+import { dullOrangeColor, greyBlueColor, grayColor } from '../../assets/colors';
+import { serverIPAddress } from '../../config';
 class CardB1 extends Component {
     constructor(props) {
         super(props);
@@ -24,21 +25,12 @@ class CardB1 extends Component {
             <TouchableOpacity onPress={this.props.onCardBPress} style={styles.cardContainer}>
                 <View style={styles.imageContainer}>
                     {
-                        true ?
-                            // <FastImage
-                            //     source={{
-                            //         uri: this.props.imageSource,
-                            //         priority: FastImage.priority.normal,
-                            //     }}
-                            //     onLoad={e => console.warn("log", e)}
-                            //     style={styles.image}
-                            //     resizeMode={FastImage.resizeMode.cover}
-                            // />
+                        this.props.imageSource ?
                             <Image
+                                style={{ resizeMode: 'cover', width: '100%', height: '100%' }}
                                 source={{
-                                    uri: 'https://images.gr-assets.com/books/1303117363l/11143580.jpg'
+                                    uri: `${serverIPAddress}${this.props.imageSource}`
                                 }}
-                                style={styles.image}
                             />
                             :
                             <Image source={require("../../assets/images/book-placehoalder.png")} style={styles.imagePlacehoalder} />
@@ -67,17 +59,18 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: "center",
         justifyContent: "center",
-        overflow: "hidden"
+        overflow: "hidden",
     },
     image: {
         height: 180,
         width: 140,
-        resizeMode: 'cover'
+        resizeMode: 'cover',
     },
     imagePlacehoalder: {
-        height: 160,
-        width: 120,
-        resizeMode: 'contain'
+        height: "100%",
+        width: "100%",
+        resizeMode: 'contain',
+        top: 16
     },
     contentContainer: {
         width: 140,

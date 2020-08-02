@@ -1,5 +1,8 @@
-const config = {
-    serverIPAddress: `http://192.168.33.5:3000/lol/api`
-}
 
-export { config }
+let serverIPAddress = 'http://192.168.33.5:3000'
+let serverBaseDomain = `${serverIPAddress}/lol/api`
+
+export {
+    serverBaseDomain,
+    serverIPAddress
+}

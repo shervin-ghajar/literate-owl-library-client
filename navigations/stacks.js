@@ -28,7 +28,7 @@ class Stacks extends Component {
     componentDidMount() {
         if (this.props.authenticationReducer.userToken) {
             this.props.onGetProfile(this.props.authenticationReducer.userToken)
-            // this.props.onGetAllBooks(this.props.authenticationReducer.userToken)
+            this.props.onGetAllBooks(this.props.authenticationReducer.userToken)
         }
         setTimeout(() => {
             this.setState({ isLoading: false })

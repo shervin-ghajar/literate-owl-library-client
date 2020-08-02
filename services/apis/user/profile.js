@@ -1,5 +1,4 @@
-import { config } from "../../../config";
-const serverIPAddress = config.serverIPAddress
+import { serverBaseDomain } from "../../../config";
 // ----------------------------------------------------------------
 import axios from "axios";
 // ----------------------------------------------------------------
@@ -19,7 +18,7 @@ export const getProfileAPI = (agent, userToken) => {
     let { timeout, source } = createTimeout();
     return theAxios
         .get(
-            `${serverIPAddress}/user/profile`,
+            `${serverBaseDomain}/user/profile`,
             {
                 cancelToken: source.token,
                 headers: {
@@ -56,7 +55,7 @@ export const updateProfileAPI = (agent, userToken, username, password) => {
         "password": password
     }
     return theAxios
-        .put(`${serverIPAddress}/user/profile`,
+        .put(`${serverBaseDomain}/user/profile`,
             body,
             {
                 cancelToken: source.token,

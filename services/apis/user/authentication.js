@@ -1,5 +1,4 @@
-import { config } from "../../../config";
-const serverIPAddress = config.serverIPAddress
+import { serverBaseDomain } from "../../../config";
 // ----------------------------------------------------------------
 import axios from "axios";
 // ----------------------------------------------------------------
@@ -23,7 +22,7 @@ export const loginAPI = (agent, email, password) => {
     }
     return theAxios
         .post(
-            `${serverIPAddress}/user/authentication/login`,
+            `${serverBaseDomain}/user/authentication/login`,
             body,
             {
                 cancelToken: source.token,
@@ -60,7 +59,7 @@ export const signupAPI = (agent, email, username, password) => {
         "password": password
     }
     return theAxios
-        .post(`${serverIPAddress}/user/authentication/signup`,
+        .post(`${serverBaseDomain}/user/authentication/signup`,
             body,
             {
                 cancelToken: source.token,
@@ -93,7 +92,7 @@ export const logoutAPI = (agent, userToken) => {
     let { timeout, source } = createTimeout();
     return theAxios
         .post(
-            `${serverIPAddress}/user/authentication/logout`,
+            `${serverBaseDomain}/user/authentication/logout`,
             {},
             {
                 cancelToken: source.token,
