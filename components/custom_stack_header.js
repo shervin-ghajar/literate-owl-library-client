@@ -10,10 +10,18 @@ export default class StackHeader extends Component {
     }
 
     renderTexts() {
+        // switch (this.props.scene.route.name) {
+        //     case "Tabs":
+
+        //         break;
+
+        //     default:
+        //         break;
+        // }
         if (this.props.scene.descriptor.options.title) {
             return (
                 <View style={styles.headerTextContainer}>
-                    <Text style={[styles.text, { fontSize: 18 }]}>{this.props.scene.descriptor.options.title}</Text>
+                    <Text style={[styles.text, { fontSize: 20 }]}>{this.props.scene.descriptor.options.title}</Text>
                 </View>
             )
         }
@@ -32,6 +40,7 @@ export default class StackHeader extends Component {
     }
 
     render() {
+        // console.warn(this.props.scene.route.name)
         return (
             <View style={[styles.headerContainer, this.props.scene.descriptor.options.headerStyle]}>
                 {this.renderTexts()}

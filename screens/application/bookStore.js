@@ -28,12 +28,6 @@ class BookStore extends Component {
 
     getAllBooks() {
         this.props.onGetAllBooks(this.props.authenticationReducer.userToken)
-        setTimeout(() => {
-            console.warn(222)
-            this.setState(state => ({
-                update: !state.update
-            }))
-        }, 3000);
     }
 
     renderWithLoading() {
@@ -59,41 +53,47 @@ class BookStore extends Component {
         let popularBooks = []
         if (this.props.booksReducer.rtype == GET_ALL_BOOKS_SUCCESS) {
             newBooks = this.props.booksReducer.newBooks.map((newBook, i) => {
-                let { id, title, authors, price, image_url } = newBook
+                let { id, title, authors, price, rating, rating_count, image_url } = newBook
                 return (
                     <CardB1
                         key={id}
-                        onCardBPress={() => { console.warn(123) }}
+                        onCardBPress={() => { this.props.navigation.navigate("BookDetails", { bookData: newBook }) }}
                         imageSource={image_url}
                         first_text={title}
                         second_text={authors[0]}
                         third_text={price}
+                        fourth_text={rating_count}
+                        star_count={rating}
                     />
                 )
             })
             freeBooks = this.props.booksReducer.freeBooks.map(freeBook => {
-                let { id, title, authors, price, image_url } = freeBook
+                let { id, title, authors, price, rating, rating_count, image_url } = freeBook
                 return (
                     <CardB1
                         key={id}
-                        onCardBPress={() => { console.warn(123) }}
+                        onCardBPress={() => { this.props.navigation.navigate("BookDetails", { bookData: freeBook }) }}
                         imageSource={image_url}
                         first_text={title}
                         second_text={authors[0]}
                         third_text={price}
+                        fourth_text={rating_count}
+                        star_count={rating}
                     />
                 )
             })
             popularBooks = this.props.booksReducer.popularBooks.map(popularBook => {
-                let { id, title, authors, price, image_url } = popularBook
+                let { id, title, authors, price, rating, rating_count, image_url } = popularBook
                 return (
                     <CardB1
                         key={id}
-                        onCardBPress={() => { console.warn(123) }}
+                        onCardBPress={() => { this.props.navigation.navigate("BookDetails", { bookData: popularBook }) }}
                         imageSource={image_url}
                         first_text={title}
                         second_text={authors[0]}
                         third_text={price}
+                        fourth_text={rating_count}
+                        star_count={rating}
                     />
                 )
             })

@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,9 +9,9 @@ import Intro from '../screens/intro';
 import Login from '../screens/authentucation/login';
 import Signup from '../screens/authentucation/signup';
 import Tabs from './tabs';
+import { BookDetails } from '../screens/application';
 import NavigationService from '../services/navigators';
 import CustomHeader from '../components/custom_stack_header';
-import Profile from '../screens/application/profile';
 import { getProfile, getAllBooks } from '../actions';
 import { GET_PROFILE_SUCCESS, GET_PROFILE_DEFAULT, GET_PROFILE_STARTED } from '../actions/types';
 //----------------------------------------------------------------------------------------------
@@ -58,9 +58,9 @@ class Stacks extends Component {
                     <Stack.Navigator
                         headerMode="screen"
                         initialRouteName={this.props.authenticationReducer.userToken ? "Tabs" : "Login"}
-                    // screenOptions={{
-                    //     header: (props) => <CustomHeader {...props} />
-                    // }}
+                        screenOptions={{
+                            header: (props) => <CustomHeader {...props} />
+                        }}
                     >
                         {
                             this.state.isLoading ?
@@ -97,10 +97,16 @@ class Stacks extends Component {
                                             <Stack.Screen
                                                 name="Tabs"
                                                 component={Tabs}
+                                                options={{
+                                                    title: "Book Store"
+                                                }}
                                             />
                                             <Stack.Screen
-                                                name="Profile"
-                                                component={Profile}
+                                                name="BookDetails"
+                                                component={BookDetails}
+                                                options={{
+                                                    title: "Book’s Info"
+                                                }}
                                             />
                                         </>
                                 )

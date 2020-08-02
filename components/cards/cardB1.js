@@ -1,49 +1,50 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import FastImage from 'react-native-fast-image'
-import { dullOrangeColor, greyBlueColor, grayColor } from '../../assets/colors';
+import { greyBlueColor, dullOrangeColor } from '../../assets/colors';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 import { serverIPAddress } from '../../config';
-class CardB1 extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            update: false,
-            imageURI: null
-        };
-    }
-
-    // componentDidMount() {
-    //     fetch(this.props.imageSource).then(imageURI => {
-    //         console.warn(imageURI)
-    //         return imageURI.json()
-    //     }).catch(err => console.warn("erere", err))
-    // }
-
-    render() {
-        let third_text = this.props.third_text == "0" ? "Free" : `$${this.props.third_text}`
-        return (
-            <TouchableOpacity onPress={this.props.onCardBPress} style={styles.cardContainer}>
-                <View style={styles.imageContainer}>
-                    {
-                        this.props.imageSource ?
-                            <Image
-                                style={{ resizeMode: 'cover', width: '100%', height: '100%' }}
-                                source={{
-                                    uri: `${serverIPAddress}${this.props.imageSource}`
-                                }}
-                            />
-                            :
-                            <Image source={require("../../assets/images/book-placehoalder.png")} style={styles.imagePlacehoalder} />
-                    }
-                </View>
-                <View style={styles.contentContainer}>
-                    <Text style={[styles.text, {}]} numberOfLines={2} ellipsizeMode={"tail"}>{this.props.first_text}</Text>
-                    <Text style={[styles.text, { opacity: 0.5 }]}>{this.props.second_text}</Text>
-                    <Text style={[styles.text, {}]}>{third_text}</Text>
-                </View>
-            </TouchableOpacity >
-        )
-    }
+import { numberSeperator } from '../../helper';
+//---------------------------------------------------------------------------
+const CardB1 = ({ first_text, second_text, third_text, fourth_text, star_count, imageSource, onCardBPress }) => {
+    third_text = third_text == "0" ? "Free" : `$${third_text}`
+    return (
+        <TouchableOpacity onPress={onCardBPress} style={styles.cardContainer}>
+            <View style={styles.imageContainer}>
+                {
+                    imageSource ?
+                        <Image
+                            style={styles.image}
+                            source={{
+                                uri: `${serverIPAddress}${imageSource}`
+                            }}
+                        />
+                        :
+                        <Image source={require("../../assets/images/book-placehoalder.png")} style={styles.imagePlacehoalder} />
+                }
+            </View>
+            <View style={styles.contentContainer}>
+                <Text style={[styles.text, {}]} numberOfLines={2} ellipsizeMode={"tail"}>{first_text}</Text>
+                <Text style={[styles.text, { opacity: 0.5 }]}>{second_text}</Text>
+                <Text style={[styles.text, {}]}>{third_text}</Text>
+            </View>
+            <View
+                style={styles.ratingStyle}
+                pointerEvents={"none"}
+            >
+                <Rating
+                    type='custom'
+                    startingValue={star_count}
+                    ratingColor={dullOrangeColor}
+                    tintColor={"#ededed"}
+                    ratingCount={5}
+                    imageSize={14}
+                    showRating={false}
+                />
+                <Text style={[styles.text, { fontSize: 12, bottom: 1, opacity: 0.5 }]}>({numberSeperator(fourth_text)})</Text>
+            </View>
+        </TouchableOpacity >
+    )
 }
 
 const styles = StyleSheet.create({
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     image: {
         height: 180,
         width: 140,
-        resizeMode: 'cover',
+        resizeMode: 'stretch',
     },
     imagePlacehoalder: {
         height: "100%",
@@ -80,6 +81,11 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto-Regular",
         fontSize: 14,
         lineHeight: 21
+    },
+    ratingStyle: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        alignItems: "center"
     }
 })
 export default CardB1;
