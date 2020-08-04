@@ -78,7 +78,7 @@ export default class Input extends Component {
                     onBlur={this.props.onBlur}
                     underlineColorAndroid='transparent'
                     placeholder={this.props.placeholder}
-                    placeholderTextColor={errorColor}
+                    placeholderTextColor={"gray"}
                     secureTextEntry={this.props.isSecure}
                     style={[
                         {
