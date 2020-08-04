@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { connect } from 'react-redux';
 // import CardB1 from '../../components/cards/cardB1';
-import CardS1 from '../../components/cards/cardS1';
-import CardB1 from '../../components/cards/cardB1';
-import { getAllBooks } from '../../actions';
-import { GET_ALL_BOOKS_SUCCESS, GET_ALL_BOOKS_DEFAULT, GET_ALL_BOOKS_STARTED, GET_ALL_BOOKS_FAILURE_NETWORK } from '../../actions/types';
-import Loading from '../../components/loading';
-import ButtonR1 from '../../components/buttons/buttonR1';
-import { dullOrangeColor } from '../../assets/colors';
+import CardS1 from '../../../components/cards/cardS1';
+import CardB1 from '../../../components/cards/cardB1';
+import { getAllBooks } from '../../../actions';
+import { GET_ALL_BOOKS_SUCCESS, GET_ALL_BOOKS_DEFAULT, GET_ALL_BOOKS_STARTED, GET_ALL_BOOKS_FAILURE_NETWORK } from '../../../actions/types';
+import Loading from '../../../components/loading';
+import ButtonR1 from '../../../components/buttons/buttonR1';
+import { dullOrangeColor, primaryBackground } from '../../../assets/colors';
 import { set } from 'react-native-reanimated';
+import ButtonA2 from '../../../components/buttons/buttonA1';
 //-----------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------
 class BookStore extends Component {
@@ -19,6 +20,7 @@ class BookStore extends Component {
             update: false
         };
         this.getAllBooks = this.getAllBooks.bind(this)
+        this.handleSeeAll = this.handleSeeAll.bind(this)
     }
 
     componentDidMount() {
@@ -44,6 +46,27 @@ class BookStore extends Component {
                     text={'Try Again'}
                 />
             </View>
+        )
+    }
+
+    handleSeeAll(books) {
+        this.props.navigation.navigate('Books', { booksData: books })
+    }
+
+    renderGenre() {
+        return (
+            <>
+                <View style={{ marginVertical: 20, paddingHorizontal: 20, }}>
+                    <Text style={{ fontFamily: "NewYorkLarge-Bold", fontSize: 25 }}>Genres</Text>
+                </View>
+                <View style={{ marginHorizontal: 20 }}>
+                    <ButtonA2 onPress={() => { }} text={"Action & Adventure"} iconSource={require('../../../assets/icons/genres/gun.png')} />
+                    <ButtonA2 onPress={() => { }} text={"Biographies & Memoirs"} iconSource={require('../../../assets/icons/genres/statue.png')} />
+                    <ButtonA2 onPress={() => { }} text={"Childrens"} iconSource={require('../../../assets/icons/genres/train.png')} />
+                    <ButtonA2 onPress={() => { }} text={"Comics & Graphic Novels"} imageContainer={{ width: 30 }} iconSource={require('../../../assets/icons/genres/bang.png')} />
+                    <ButtonA2 onPress={() => { this.props.navigation.navigate("Genres") }} text={"All Genres"} isBlackArrow textStyle={{ fontFamily: "Roboto-Bold" }} iconSource={require('../../../assets/icons/genres/all-genres.png')} />
+                </View>
+            </>
         )
     }
 
@@ -102,15 +125,16 @@ class BookStore extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <CardS1 title={"New Releases"} subTitle={"Recently released books."} >
+                    <CardS1 onSeeAllPress={() => this.handleSeeAll(this.props.booksReducer.newBooks)} title={"New Releases"} subTitle={"Recently released books."} >
                         {newBooks}
                     </CardS1>
-                    <CardS1 title={"Free"} subTitle={"Free books of the week"} >
+                    <CardS1 onSeeAllPress={() => this.handleSeeAll(this.props.booksReducer.freeBooks)} title={"Free"} subTitle={"Free books of the week"} >
                         {freeBooks}
                     </CardS1>
-                    <CardS1 title={"You Must Read"} subTitle={"Most rated 100 books written by the best authors."}>
+                    <CardS1 onSeeAllPress={() => this.handleSeeAll(this.props.booksReducer.popularBooks)} title={"You Must Read"} subTitle={"Most rated 100 books written by the best authors."}>
                         {popularBooks}
                     </CardS1>
+                    {this.renderGenre()}
                 </ScrollView>
             </View>
         )
@@ -132,6 +156,7 @@ class BookStore extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: primaryBackground
     },
     reloadView: {
         flex: 1,

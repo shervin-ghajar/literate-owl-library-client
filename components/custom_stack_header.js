@@ -7,21 +7,31 @@ export default class StackHeader extends Component {
         super(props);
         this.state = {
         };
+        this.hasFilte = false
     }
 
     renderTexts() {
-        // switch (this.props.scene.route.name) {
-        //     case "Tabs":
-
-        //         break;
-
-        //     default:
-        //         break;
-        // }
+        let title = null
+        if ("state" in this.props.scene.route) {
+            switch (this.props.scene.route.state.routeNames[this.props.scene.route.state.index]) {
+                case "Book Store":
+                    title = "Book Store"
+                    this.hasFilte = true
+                    break;
+                case "Search":
+                    title = "Search"
+                    this.hasFilte = false
+                    break;
+                case "Profile":
+                    title = "Profile"
+                    this.hasFilte = false
+                    break;
+            }
+        }
         if (this.props.scene.descriptor.options.title) {
             return (
                 <View style={styles.headerTextContainer}>
-                    <Text style={[styles.text, { fontSize: 20 }]}>{this.props.scene.descriptor.options.title}</Text>
+                    <Text style={[styles.text, { fontSize: 20 }]}>{title || this.props.scene.descriptor.options.title}</Text>
                 </View>
             )
         }
@@ -38,14 +48,22 @@ export default class StackHeader extends Component {
         }
         return null
     }
-
+    renderFilter() {
+        return (
+            this.hasFilte ?
+                <TouchableOpacity style={styles.headerFilterContainer} hitSlop={{ top: 20, bottom: 20, right: 20, left: 20 }} onPress={() => this.props.navigation.navigate("Genres")} >
+                    <Image source={require("../assets/icons/genres/all-genres.png")} style={styles.headerFilterStyle} />
+                </TouchableOpacity>
+                : null
+        )
+    }
     render() {
         // console.warn(this.props.scene.route.name)
         return (
             <View style={[styles.headerContainer, this.props.scene.descriptor.options.headerStyle]}>
                 {this.renderTexts()}
                 {this.renderBack()}
-                {/* {this.renderFilter()} */}
+                {this.renderFilter()}
             </View>
         );
     }
@@ -72,6 +90,18 @@ const styles = StyleSheet.create({
     headerBackStyle: {
         height: 15,
         width: 9,
+    },
+    headerFilterContainer: {
+        position: 'absolute',
+        height: 28,
+        width: 28,
+        alignItems: "center",
+        justifyContent: 'center',
+        right: 15
+    },
+    headerFilterStyle: {
+        height: "100%",
+        width: "100%",
     },
     text: {
         fontFamily: "NewYorkLarge-Bold"

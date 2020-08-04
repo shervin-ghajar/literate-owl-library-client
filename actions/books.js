@@ -39,7 +39,7 @@ export const getAllBooks = (userToken) => {
     };
 };
 //--------------------------------------------------------------------------------------------------
-// export const updgetAllBooks = (userToken, username, password) => {
+// export const getBooksByGenre = (userToken, username, password) => {
 //     return dispatch => {
 //         dispatch(updgetAllBooksStarted());
 //         const agent = DeviceInfo.getUniqueId();

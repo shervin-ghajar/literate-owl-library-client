@@ -14,6 +14,7 @@ const initialState = {
     balance: 0,
     wishlist: [],
     purchased: [],
+    tabName: "Book Store",
     error: null
 };
 export function profileReducer(state = initialState, action) {

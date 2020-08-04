@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, View, Image, StyleSheet } from 'react-native';
 //-----------------------------------------------------------------------------
-import BookStore from '../screens/application/bookStore';
-import Search from '../screens/application/search';
-import Profile from '../screens/application/profile';
+import { BookStore, Profile, Search } from '../screens/application/tabs';
 import CustomBottomTab from '../components/custom_bottom_tab';
 import { blackColor, grayColor, veryLightGrayColor, primaryBackground, greyBlueColor } from '../assets/colors';
 //-----------------------------------------------------------------------------
@@ -51,7 +49,12 @@ export default class AppStacks extends Component {
                             case "Profile":
                                 return (
                                     <View style={styles.tabIconContainer}>
-                                        <Image source={require(`../assets/icons/tabbar/profile.png`)} style={[styles.icons, { top: 3 }]} />
+                                        {
+                                            focused ?
+                                                <Image source={require('../assets/icons/tabbar/profile-focus.png')} style={[styles.icons, { top: 3 }]} />
+                                                :
+                                                <Image source={require('../assets/icons/tabbar/profile.png')} style={[styles.icons, { top: 3 }]} />
+                                        }
                                     </View>
                                 )
                         }

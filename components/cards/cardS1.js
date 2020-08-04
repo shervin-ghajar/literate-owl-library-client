@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import LinearGradient from "react-native-linear-gradient";
 //---------------------------------------------------------------------------------------
-import { sectionGradient } from '../../assets/colors';
+import { sectionGradient, dullOrangeColor, greyBlueColor } from '../../assets/colors';
 //---------------------------------------------------------------------------------------
-const CardS1 = ({ title, subTitle, children }) => (
+const CardS1 = ({ title, subTitle, onSeeAllPress, children }) => (
     <LinearGradient
         start={{ x: 0.5, y: 1 }}
         end={{ x: 0.5, y: -0.01 }}
@@ -19,10 +19,11 @@ const CardS1 = ({ title, subTitle, children }) => (
             </View>
             <TouchableOpacity
                 hitSlop={{ top: 15, bottom: 15, left: 30, right: 30 }}
-                onPress={() => { }}
-                style={{ bottom: 5 }}
+                onPress={onSeeAllPress}
+                style={{ bottom: 5, flexDirection: "row", alignItems: "center" }}
             >
-                <Text style={{ fontFamily: "Roboto-Regular", fontSize: 15, opacity: 0.5 }}>See All</Text>
+                <Text style={{ fontFamily: "Roboto-Regular", fontSize: 15, color: greyBlueColor }}>See All</Text>
+                {/* <Image source={require('../../assets/icons/arrow-right.png')} style={styles.arrowImage} /> */}
             </TouchableOpacity>
         </View>
         <ScrollView contentContainerStyle={styles.scrollView}
@@ -50,6 +51,11 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 10,
 
+    },
+    arrowImage: {
+        width: 8,
+        height: 13,
+        marginLeft: 9
     }
 })
 

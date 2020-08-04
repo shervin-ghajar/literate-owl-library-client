@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import ButtonR1 from '../../components/buttons/buttonR1';
+import ButtonR1 from '../../../components/buttons/buttonR1';
 import { connect } from 'react-redux';
-import { logout } from '../../actions';
+import { logout } from '../../../actions';
 //------------------------------------------------------------------------------------------
 class Profile extends Component {
     constructor(props) {

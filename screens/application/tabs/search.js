@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
+import Input from '../../../components/input';
 
 class Search extends Component {
     constructor(props) {
@@ -10,9 +11,9 @@ class Search extends Component {
 
     render() {
         return (
-            <View>
-                <Text> search </Text>
-            </View>
+            <ScrollView>
+                <Input placehoalder={"Search"} in />
+            </ScrollView>
         );
     }
 }

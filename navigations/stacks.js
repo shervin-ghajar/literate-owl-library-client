@@ -9,7 +9,7 @@ import Intro from '../screens/intro';
 import Login from '../screens/authentucation/login';
 import Signup from '../screens/authentucation/signup';
 import Tabs from './tabs';
-import { BookDetails } from '../screens/application';
+import { BookDetails, Genres, Books } from '../screens/application';
 import NavigationService from '../services/navigators';
 import CustomHeader from '../components/custom_stack_header';
 import { getProfile, getAllBooks } from '../actions';
@@ -106,6 +106,20 @@ class Stacks extends Component {
                                                 component={BookDetails}
                                                 options={{
                                                     title: "Book’s Info"
+                                                }}
+                                            />
+                                            <Stack.Screen
+                                                name="Genres"
+                                                component={Genres}
+                                                options={{
+                                                    title: "Genres"
+                                                }}
+                                            />
+                                            <Stack.Screen
+                                                name="Books"
+                                                component={Books}
+                                                options={{
+                                                    title: "Books"
                                                 }}
                                             />
                                         </>
