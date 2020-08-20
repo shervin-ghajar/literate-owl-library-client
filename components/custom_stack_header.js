@@ -7,7 +7,7 @@ export default class StackHeader extends Component {
         super(props);
         this.state = {
         };
-        this.hasFilte = false
+        this.hasFilter = (this.props.scene.route.name == "Tabs") ? true : false
     }
 
     renderTexts() {
@@ -16,15 +16,15 @@ export default class StackHeader extends Component {
             switch (this.props.scene.route.state.routeNames[this.props.scene.route.state.index]) {
                 case "Book Store":
                     title = "Book Store"
-                    this.hasFilte = true
+                    this.hasFilter = true
                     break;
                 case "Search":
                     title = "Search"
-                    this.hasFilte = false
+                    this.hasFilter = false
                     break;
-                case "Profile":
-                    title = "Profile"
-                    this.hasFilte = false
+                case "Account":
+                    title = "Account"
+                    this.hasFilter = false
                     break;
             }
         }
@@ -42,7 +42,7 @@ export default class StackHeader extends Component {
         if (this.props.previous && this.props.scene.descriptor.options.headerBack == null) {
             return (
                 <TouchableOpacity style={styles.headerBackContainer} hitSlop={{ top: 20, bottom: 20, right: 20, left: 20 }} onPress={() => this.props.navigation.pop()} >
-                    <Image source={require("../assets/icons/Back.png")} style={styles.headerBackStyle} />
+                    <Image source={require("../assets/icons/back.png")} style={styles.headerBackStyle} />
                 </TouchableOpacity>
             )
         }
@@ -50,7 +50,7 @@ export default class StackHeader extends Component {
     }
     renderFilter() {
         return (
-            this.hasFilte ?
+            this.hasFilter ?
                 <TouchableOpacity style={styles.headerFilterContainer} hitSlop={{ top: 20, bottom: 20, right: 20, left: 20 }} onPress={() => this.props.navigation.navigate("Genres")} >
                     <Image source={require("../assets/icons/genres/all-genres.png")} style={styles.headerFilterStyle} />
                 </TouchableOpacity>

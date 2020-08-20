@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, View, Image, StyleSheet } from 'react-native';
 //-----------------------------------------------------------------------------
-import { BookStore, Profile, Search } from '../screens/application/tabs';
+import { BookStore, Account, Search } from '../screens/application/tabs';
 import CustomBottomTab from '../components/custom_bottom_tab';
 import { blackColor, grayColor, veryLightGrayColor, primaryBackground, greyBlueColor } from '../assets/colors';
 //-----------------------------------------------------------------------------
@@ -18,7 +18,7 @@ export default class AppStacks extends Component {
     render() {
         return (
             <Tab.Navigator
-                initialRouteName={"BookStore"}
+                // initialRouteName={"BookStore"}
                 backBehavior={"initialRoute"}
                 // tabBar={props => <CustomBottomTab {...props} />}
                 screenOptions={({ route }) => ({
@@ -46,7 +46,7 @@ export default class AppStacks extends Component {
                                         }
                                     </View>
                                 )
-                            case "Profile":
+                            case "Account":
                                 return (
                                     <View style={styles.tabIconContainer}>
                                         {
@@ -78,7 +78,7 @@ export default class AppStacks extends Component {
             >
                 <Tab.Screen name="Book Store" component={BookStore} />
                 <Tab.Screen name="Search" component={Search} />
-                <Tab.Screen name="Profile" component={Profile} />
+                <Tab.Screen name="Account" component={Account} />
             </Tab.Navigator>
         );
     }

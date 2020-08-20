@@ -46,6 +46,16 @@ function pop(number) {
     _updateCB();
 }
 
+function push(name, params) {
+    _container.dispatch(
+        StackActions.pop({
+            name,
+            params
+        }),
+    );
+    _updateCB();
+}
+
 function checkForceDoubleBack() {
     return isForceDoubleBack;
 }

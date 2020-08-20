@@ -1,5 +1,5 @@
 import BookStore from './bookStore';
-import Profile from './profile';
+import Account from './account';
 import Search from './search';
 
-export { BookStore, Profile, Search }
+export { BookStore, Account, Search }

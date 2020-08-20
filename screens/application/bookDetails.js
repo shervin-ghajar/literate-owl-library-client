@@ -71,7 +71,13 @@ export default class BookDetails extends Component {
                     />
                     <ButtonR2
                         onPress={() => this.setState(state => ({ wished: !state.wished }))}
-                        iconSource={require('../../assets/icons/bookmark.png')}
+                        iconSource={
+                            this.state.wished ?
+                                require('../../assets/icons/wishlist-focus.png')
+                                :
+                                require('../../assets/icons/wishlist.png')
+                        }
+                        iconStyle={{ width: 17, height: 21 }}
                         btnStyle={[{ width: 70, height: 45 }, this.state.wished ? { backgroundColor: dullOrangeColor } : {}]}
                     />
                 </View>

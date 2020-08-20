@@ -4,10 +4,16 @@
 import BookDetails from './bookDetails'
 import Genres from './genres'
 import Books from './books';
+import Profile from './profile';
+import Wishlist from './wishlist';
+import Purchases from './purchases';
 
 
 export {
     BookDetails,
     Genres,
-    Books
+    Books,
+    Profile,
+    Wishlist,
+    Purchases
 }

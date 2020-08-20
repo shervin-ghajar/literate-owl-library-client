@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { greyBlueBackground, whiteColor } from '../../assets/colors';
 //--------------------------------------------------------------------------------------------
 const ButtonR2 = ({
-    onPress, text, disabled, containerStyle, btnStyle, textStyle, iconSource
+    onPress, text, disabled, containerStyle, btnStyle, textStyle, iconSource, iconStyle
 }) => (
         <TouchableOpacity
             onPress={onPress}
@@ -18,7 +18,7 @@ const ButtonR2 = ({
                 }
                 {
                     iconSource ?
-                        <Image source={iconSource} style={styles.image} />
+                        <Image source={iconSource} style={[styles.image, iconStyle]} />
                         : null
                 }
             </View>
@@ -33,9 +33,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 10,
-        // padding: 10,
         height: 45,
-        // elevation: 3
     },
     text: {
         fontFamily: "Roboto-Bold",

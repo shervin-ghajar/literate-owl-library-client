@@ -9,7 +9,7 @@ import Intro from '../screens/intro';
 import Login from '../screens/authentucation/login';
 import Signup from '../screens/authentucation/signup';
 import Tabs from './tabs';
-import { BookDetails, Genres, Books } from '../screens/application';
+import { BookDetails, Genres, Books, Profile, Wishlist, Purchases } from '../screens/application';
 import NavigationService from '../services/navigators';
 import CustomHeader from '../components/custom_stack_header';
 import { getProfile, getAllBooks } from '../actions';
@@ -98,7 +98,7 @@ class Stacks extends Component {
                                                 name="Tabs"
                                                 component={Tabs}
                                                 options={{
-                                                    title: "Book Store"
+                                                    title: "Book Store",
                                                 }}
                                             />
                                             <Stack.Screen
@@ -122,6 +122,28 @@ class Stacks extends Component {
                                                     title: "Books"
                                                 }}
                                             />
+                                            <Stack.Screen
+                                                name="Profile"
+                                                component={Profile}
+                                                options={{
+                                                    title: "Profile"
+                                                }}
+                                            />
+                                            <Stack.Screen
+                                                name="Wishlist"
+                                                component={Wishlist}
+                                                options={{
+                                                    title: "Wishlist"
+                                                }}
+                                            />
+                                            <Stack.Screen
+                                                name="Purchases"
+                                                component={Purchases}
+                                                options={{
+                                                    title: "Purchases"
+                                                }}
+                                            />
+
                                         </>
                                 )
                         }

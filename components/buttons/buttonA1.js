@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { greyBlueBackground, whiteColor, primaryBackground } from '../../assets/colors';
 //--------------------------------------------------------------------------------------------
-const ButtonA2 = ({
-    onPress, text, disabled, containerStyle, btnStyle, textStyle, iconSource, isBlackArrow, imageContainer
+const ButtonA1 = ({
+    onPress, text, disabled, containerStyle, btnStyle, textStyle, iconSource, isBlackArrow, imageContainer, noArrow, counter
 }) => (
         <TouchableOpacity
             onPress={onPress}
@@ -17,12 +17,16 @@ const ButtonA2 = ({
                     </View>
                     <Text style={[styles.text, textStyle]}>{text}</Text>
                 </View>
-                {
-                    isBlackArrow ?
-                        <Image source={require('../../assets/icons/arrow-right-black.png')} style={styles.arrowImage} />
-                        :
-                        <Image source={require('../../assets/icons/arrow-right.png')} style={styles.arrowImage} />
-                }
+                <View style={styles.conentContainer}>
+                    <Text style={[styles.text, { opacity: 0.5, marginRight: 20 }]}>{counter >= 0 ? counter : ''}</Text>
+                    {!noArrow ?
+                        (isBlackArrow ?
+                            <Image source={require('../../assets/icons/arrow-right-black.png')} style={styles.arrowImage} />
+                            :
+                            <Image source={require('../../assets/icons/arrow-right.png')} style={styles.arrowImage} />)
+                        : null
+                    }
+                </View>
 
             </View>
         </TouchableOpacity >
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
     imageContainer: {
         height: 25,
         width: 25,
-        marginRight: 20
+        marginRight: 20,
     },
     contentImage: {
         width: "100%",
@@ -64,7 +68,8 @@ const styles = StyleSheet.create({
     arrowImage: {
         width: 7,
         height: 12,
+        // alignItems: "center"
     }
 })
 
-export default ButtonA2;
+export default ButtonA1;

@@ -18,7 +18,7 @@ export const getAllBooksAPI = (agent, userToken) => {
     let { timeout, source } = createTimeout();
     return theAxios
         .get(
-            `${serverBaseDomain}/user/books`,
+            `${serverBaseDomain}/books`,
             {
                 cancelToken: source.token,
                 headers: {
@@ -32,6 +32,7 @@ export const getAllBooksAPI = (agent, userToken) => {
             return res.data
         })
         .catch(err => {
+            console.warn(err)
             console.warn("getProfileAPI_catch", err.response);
             let errorCode = 0;
             if ("response" in err
@@ -54,7 +55,7 @@ export const getAllBooksAPI = (agent, userToken) => {
 //         "password": password
 //     }
 //     return theAxios
-//         .put(`${serverBaseDomain}/user/profile`,
+//         .put(`${serverBaseDomain}/profile`,
 //             body,
 //             {
 //                 cancelToken: source.token,
