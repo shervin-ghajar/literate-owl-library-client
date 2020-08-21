@@ -16,7 +16,7 @@ class Account extends Component {
         this.state = {
             showLogoutModal: false,
             showChargeModal: false,
-            chargeAmount: null,
+            chargeAmount: undefined,
         };
         this.handleLogoutModal = this.handleLogoutModal.bind(this)
         this.handleChargeModal = this.handleChargeModal.bind(this)
@@ -31,11 +31,11 @@ class Account extends Component {
         this.setState((state, props) => ({ showLogoutModal: !state.showLogoutModal }))
     }
     handleChargeModal() {
-        this.setState((state, props) => ({ showChargeModal: !state.showChargeModal, chargeAmount: 0 }))
+        this.setState((state, props) => ({ showChargeModal: !state.showChargeModal, chargeAmount: undefined }))
     }
     handleCharge() {
         this.setState((state, props) => ({ showChargeModal: !state.showChargeModal, }), () => {
-            this.props.onChargeBalance(this.props.authenticationReducer.userToken, numberJoiner(this.state.chargeAmount))
+            this.props.onChargeBalance(this.props.authenticationReducer.userToken, this.state.chargeAmount)
         })
     }
 
@@ -112,7 +112,7 @@ class Account extends Component {
                     <>
                         <Text style={{ width: 300, textAlign: "center", fontFamily: 'Roboto-Regular', fontSize: 16 }}>Please enter the amount you wish to charge your wallet.</Text>
                         <Input
-                            value={numberSeperator(this.state.chargeAmount)}
+                            value={this.state.chargeAmount}
                             keyboardType={"numeric"}
                             placehoalder={0}
                             autoFocus
@@ -120,13 +120,20 @@ class Account extends Component {
                             style={{ textAlign: "center", height: 40 }}
                             onEndEditing={(e) => {
                                 let chargeAmount = (e.nativeEvent.text).trim()
-                                chargeAmount = chargeAmount == 0 || chargeAmount == "" ? chargeAmount : numberJoiner(chargeAmount)
                                 this.setState({ chargeAmount })
                             }}
                             isAmount
                             onChangeText={chargeAmount => {
                                 chargeAmount = numberJoiner(chargeAmount)
-                                this.setState({ chargeAmount });
+                                if (chargeAmount != "NaN") {
+                                    if (chargeAmount > 0) {
+                                        chargeAmount = numberSeperator(chargeAmount)
+                                        console.warn(2, chargeAmount)
+                                    }
+                                } else {
+                                    chargeAmount = this.state.chargeAmount || ""
+                                }
+                                this.setState({ chargeAmount })
                             }}
                             error={this.state.chargeAmountErr}
                         />
