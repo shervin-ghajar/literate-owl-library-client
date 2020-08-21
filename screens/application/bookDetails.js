@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { serverIPAddress } from '../../config';
-import { greyBlueColor, dullOrangeColor, primaryBackground } from '../../assets/colors';
+import { connect } from 'react-redux';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+//-------------------------------------------------------------------------------------
+import { serverIPAddress } from '../../config';
+import { greyBlueColor, dullOrangeColor, primaryBackground, greyBlueBackground } from '../../assets/colors';
 import { numberSeperator } from '../../helper';
 import ButtonR2 from '../../components/buttons/buttonR2';
+import ModalPanel from '../../components/modal';
+import { handleWishlist, purchase } from '../../actions';
 //----------------------------------------------------------------------------------
-export default class BookDetails extends Component {
+class BookDetails extends Component {
     constructor(props) {
         super(props);
         this.bookId = null
@@ -19,20 +23,39 @@ export default class BookDetails extends Component {
             this.props.navigation.pop()
         }
         this.state = {
-            wished: false
+            wished: false,
+            showPurchaseModal: false
         };
+        this.handleWishlist = this.handleWishlist.bind(this)
+        this.handlePurchaseModal = this.handlePurchaseModal.bind(this)
     }
 
-    componentDidMount() {
+    handleWishlist(bookId) {
+        this.props.onHandleWishlist(this.props.authenticationReducer.userToken, bookId)
+    }
 
+    handlePurchaseModal() {
+        this.setState((state, props) => ({ showPurchaseModal: !state.showPurchaseModal }))
+    }
+
+    handlePurchase(bookId) {
+        this.setState({ showPurchaseModal: false }, () => {
+            this.props.onHandlePurchase(this.props.authenticationReducer.userToken, bookId)
+        })
     }
 
     render() {
-        let { image_url, title, authors, price, rating, rating_count, desc, genres, pages, year } = this.bookData
-        // console.warn(this.bookData)
+        let { id, image_url, title, authors, price, rating, rating_count, desc, genres, pages, year } = this.bookData
+        let isWished = false
+        if (this.props.profileReducer.wishlist.length > 0) {
+            isWished = this.props.profileReducer.wishlist.includes(this.bookId)
+        }
+        let isBalanceValid = (this.props.profileReducer.balance >= price)
+        let isPurchased = false
+        if (this.props.profileReducer.purchased.length > 0)
+            isPurchased = this.props.profileReducer.purchased.includes(id)
         return (
             <ScrollView style={styles.scrollView}>
-
                 <View style={styles.headerContainer}>
                     <View style={[styles.headerImageContainer]}>
                         {
@@ -65,20 +88,23 @@ export default class BookDetails extends Component {
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: 'center', marginTop: 20 }}>
                     <ButtonR2
+                        onPress={() => this.handlePurchaseModal()}
                         textStyle={{ fontSize: 15 }}
-                        text={price == 0 ? 'Free' : `Buy $${price}`}
+                        text={isPurchased ? "Purchased" : (price == 0 ? 'Free' : `Buy $${price}`)}
+                        disabled={isPurchased}
+                        containerStyle={{ opacity: 1 }}
                         btnStyle={{ width: 260, height: 45, marginRight: 10 }}
                     />
                     <ButtonR2
-                        onPress={() => this.setState(state => ({ wished: !state.wished }))}
+                        onPress={() => this.handleWishlist(id)}
                         iconSource={
-                            this.state.wished ?
+                            isWished ?
                                 require('../../assets/icons/wishlist-focus.png')
                                 :
                                 require('../../assets/icons/wishlist.png')
                         }
                         iconStyle={{ width: 17, height: 21 }}
-                        btnStyle={[{ width: 70, height: 45 }, this.state.wished ? { backgroundColor: dullOrangeColor } : {}]}
+                        btnStyle={[{ width: 70, height: 45 }, isWished ? { backgroundColor: dullOrangeColor } : {}]}
                     />
                 </View>
                 <View style={styles.decriptionContainer}>
@@ -114,6 +140,36 @@ export default class BookDetails extends Component {
                         <Text style={styles.moreInfoContent}>{year}</Text>
                     </View>
                 </View>
+                <ModalPanel headerImageStyle={{ left: 20 }} visible={this.state.showPurchaseModal} onClose={this.handlePurchaseModal}>
+                    <>
+                        <View style={styles.modalImageContainer}>
+                            {
+                                image_url ?
+                                    <Image
+                                        style={styles.modalImage}
+                                        source={{ uri: serverIPAddress + image_url }}
+                                    />
+                                    :
+                                    <Image source={require("../../assets/images/book-placehoalder.png")} style={styles.modalImagePlacehoalder} />
+                            }
+                        </View>
+                        <View style={{ alignItems: "center", width: "75%" }}>
+                            <Text style={[{ marginTop: 20, fontFamily: 'Roboto-Regular', fontSize: 15 }]}>Title :  {title}</Text>
+                            <Text style={[{ marginTop: 5, fontFamily: 'Roboto-Regular', fontSize: 15 }]}>Author :  {authors[0]}</Text>
+                            <Text style={[{ marginTop: 5, fontFamily: 'Roboto-Regular', fontSize: 15 }]}>Price :  ${price}</Text>
+                            <Text style={[{ marginTop: 20, fontFamily: 'Roboto-Regular', fontSize: 15, color: isBalanceValid ? greyBlueColor : dullOrangeColor }]}>Your Balance : ${this.props.profileReducer.balance}</Text>
+                        </View>
+                        <View style={{ marginTop: 30, flexDirection: "row", justifyContent: 'space-evenly', width: "100%" }}>
+                            <ButtonR2
+                                onPress={() => this.handlePurchase(id, price)}
+                                disabled={!isBalanceValid}
+                                text={"Confirm"}
+                                containerStyle={{ width: 250 }}
+                                btnStyle={{ backgroundColor: greyBlueBackground }}
+                            />
+                        </View>
+                    </>
+                </ModalPanel>
             </ScrollView>
         );
     }
@@ -185,5 +241,43 @@ const styles = StyleSheet.create({
     moreInfoContent: {
         fontFamily: "Roboto-Regular",
         fontSize: 15
-    }
+    },
+    modalImageContainer: {
+        height: 120,
+        width: 90,
+        backgroundColor: greyBlueColor,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+    },
+    modalImage: {
+        height: "100%",
+        width: "100%",
+        resizeMode: 'stretch',
+    },
+    modalImagePlacehoalder: {
+        height: "100%",
+        width: "100%",
+        resizeMode: 'contain',
+        top: 16
+    },
 })
+
+
+//------------------------------------------------------------------------------------
+const mapStateToProps = state => {
+    let { authenticationReducer, profileReducer } = state;
+    return { authenticationReducer, profileReducer };
+};
+const mapDispatchToProps = dispatch => {
+    return {
+        onHandleWishlist: (userToken, bookId) => {
+            dispatch(handleWishlist(userToken, bookId))
+        },
+        onHandlePurchase: (userToken, bookId) => {
+            dispatch(purchase(userToken, bookId))
+        },
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(BookDetails);

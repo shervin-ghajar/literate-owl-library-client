@@ -12,7 +12,6 @@ export default class StackHeader extends Component {
 
     renderTexts() {
         let title = null
-        console.warn(this.props.scene.route.params)
         if ("state" in this.props.scene.route) {
             switch (this.props.scene.route.state.routeNames[this.props.scene.route.state.index]) { //Tabs
                 case "Book Store":

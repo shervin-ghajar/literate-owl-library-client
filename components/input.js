@@ -31,11 +31,11 @@ export default class Input extends Component {
         }
     }
     clear() {
-        try {
-            this.textInput.clear();
-        } catch (err) {
-            // ...
-        }
+        this.textInput.clear();
+        // try {
+        // } catch (err) {
+        //     // ...
+        // }
     }
 
     render() {
@@ -55,6 +55,11 @@ export default class Input extends Component {
                         <Text style={[{ zIndex: 999, fontSize: 14, fontFamily: 'Roboto-Regular', color: this.props.error ? errorColor : darkSlateBlueColor, textAlign: 'left', opacity: 0.7 }, this.props.labelStyle]}>
                             {this.props.labelTitle}
                         </Text>
+                        : null
+                }
+                {
+                    this.props.isAmount ?
+                        <Text style={[{ zIndex: 999, fontSize: 20, fontFamily: 'Roboto-Regular', color: this.props.error ? errorColor : darkSlateBlueColor, textAlign: 'left', opacity: 0.7, bottom: 20, left: -15, position: "absolute" }, this.props.labelStyle]}>$</Text>
                         : null
                 }
                 <TextInput

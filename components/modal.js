@@ -12,9 +12,9 @@ const ModalPanel = ({
             onRequestClose={onClose}>
             <View style={styles.view} >
                 <View style={styles.container}>
-                    <View style={{ marginTop: 15, right: 5, alignItems: "flex-end" }}>
-                        <TouchableOpacity hitSlop={{ top: 10, right: 20, bottom: 10 }} style={{ width: 30 }} onPress={onClose}>
-                            <Image source={require('../assets/icons/logout.png')} style={styles.closeImage} />
+                    <View style={{ marginTop: 15, alignItems: "flex-end" }}>
+                        <TouchableOpacity hitSlop={{ top: 10, right: 15, bottom: 10 }} style={{ width: 30 }} onPress={onClose}>
+                            <Image source={require('../assets/icons/close-modal.png')} style={styles.closeImage} />
                         </TouchableOpacity>
                     </View>
                     {
@@ -44,8 +44,8 @@ const styles = {
         alignSelf: 'center',
     },
     closeImage: {
-        width: 40,
-        height: 40
+        width: 20,
+        height: 20
     },
     container: {
         width: 330,

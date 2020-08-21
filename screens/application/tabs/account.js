@@ -3,21 +3,24 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 //-----------------------------------------------------------------------------------------
 import ButtonR2 from '../../../components/buttons/buttonR2';
-import { logout, getProfile } from '../../../actions';
+import Input from '../../../components/input';
+import { logout, getProfile, chargeBalance } from '../../../actions';
 import ButtonA1 from '../../../components/buttons/buttonA1';
 import { primaryBackground, dullOrangeColor, greyBlueColor } from '../../../assets/colors';
 import ModalPanel from '../../../components/modal';
+import { numberSeperator, numberJoiner } from '../../../helper';
 //------------------------------------------------------------------------------------------
 class Account extends Component {
     constructor(props) {
         super(props);
         this.state = {
             showLogoutModal: false,
-            showChargeModal: false
+            showChargeModal: false,
+            chargeAmount: null,
         };
         this.handleLogoutModal = this.handleLogoutModal.bind(this)
         this.handleChargeModal = this.handleChargeModal.bind(this)
-
+        this.handleCharge = this.handleCharge.bind(this)
     }
 
     componentDidMount() {
@@ -28,7 +31,12 @@ class Account extends Component {
         this.setState((state, props) => ({ showLogoutModal: !state.showLogoutModal }))
     }
     handleChargeModal() {
-        this.setState((state, props) => ({ showChargeModal: !state.showChargeModal }))
+        this.setState((state, props) => ({ showChargeModal: !state.showChargeModal, chargeAmount: 0 }))
+    }
+    handleCharge() {
+        this.setState((state, props) => ({ showChargeModal: !state.showChargeModal, }), () => {
+            this.props.onChargeBalance(this.props.authenticationReducer.userToken, numberJoiner(this.state.chargeAmount))
+        })
     }
 
     renderBalance(balance) {
@@ -40,10 +48,10 @@ class Account extends Component {
                 </View>
                 <View style={{ justifyContent: 'flex-end' }}>
                     <ButtonR2
-                        onPress={() => this.handleChargeModal}
+                        onPress={this.handleChargeModal}
                         text={"Charge Wallet"}
                         textStyle={{ fontFamily: 'Roboto-Regular', fontSize: 15 }}
-                        btnStyle={{ backgroundColor: dullOrangeColor, width: 120, height: 35, }}
+                        btnStyle={{ backgroundColor: dullOrangeColor, width: 130, height: 35, }}
                     />
                 </View>
             </View>
@@ -52,6 +60,7 @@ class Account extends Component {
 
     render() {
         let { balance, wishlist, purchased } = this.props.profileReducer
+        let chargeAmountNotValid = !this.state.chargeAmount || this.state.chargeAmount == 0 || this.state.chargeAmount == ""
         return (
             <ScrollView contentContainerStyle={styles.scrollViewContainer}>
                 <View style={styles.contentContainer}>
@@ -99,20 +108,35 @@ class Account extends Component {
                         </View>
                     </>
                 </ModalPanel>
-                <ModalPanel headerSource={require('../../../assets/icons/logout.png')} headerImageStyle={{ left: 20 }} visible={this.state.showChargeModal} onClose={this.handleChargeModal}>
+                <ModalPanel headerImageStyle={{ left: 20 }} visible={this.state.showChargeModal} onClose={this.handleChargeModal}>
                     <>
-                        <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 16 }}>Are you sure you want to log out?</Text>
+                        <Text style={{ width: 300, textAlign: "center", fontFamily: 'Roboto-Regular', fontSize: 16 }}>Please enter the amount you wish to charge your wallet.</Text>
+                        <Input
+                            value={numberSeperator(this.state.chargeAmount)}
+                            keyboardType={"numeric"}
+                            placehoalder={0}
+                            autoFocus
+                            containerStyle={{ width: 100, marginTop: 30 }}
+                            style={{ textAlign: "center", height: 40 }}
+                            onEndEditing={(e) => {
+                                let chargeAmount = (e.nativeEvent.text).trim()
+                                chargeAmount = chargeAmount == 0 || chargeAmount == "" ? chargeAmount : numberJoiner(chargeAmount)
+                                this.setState({ chargeAmount })
+                            }}
+                            isAmount
+                            onChangeText={chargeAmount => {
+                                chargeAmount = numberJoiner(chargeAmount)
+                                this.setState({ chargeAmount });
+                            }}
+                            error={this.state.chargeAmountErr}
+                        />
                         <View style={{ marginTop: 30, flexDirection: "row", justifyContent: 'space-evenly', width: "100%" }}>
                             <ButtonR2
-                                onPress={() => this.props.onLogout(this.props.authenticationReducer.userToken)}
-                                text={"Yes"}
-                                containerStyle={{ width: 120 }}
+                                onPress={() => this.handleCharge()}
+                                disabled={chargeAmountNotValid}
+                                text={"Charge"}
+                                containerStyle={{ width: 250 }}
                                 btnStyle={{ backgroundColor: dullOrangeColor }}
-                            />
-                            <ButtonR2
-                                onPress={this.handleLogoutModal}
-                                text={"No"}
-                                containerStyle={{ width: 120 }}
                             />
                         </View>
                     </>
@@ -160,6 +184,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onGetProfile: (userToken) => {
             dispatch(getProfile(userToken))
+        },
+        onChargeBalance: (userToken, chargeAmount) => {
+            dispatch(chargeBalance(userToken, chargeAmount))
         },
         onLogout: (userToken) => {
             dispatch(logout(userToken))

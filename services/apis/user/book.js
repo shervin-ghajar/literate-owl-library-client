@@ -55,7 +55,6 @@ export const getScrollableBooksAPI = (agent, userToken, queryType, scrollId, gen
         "scrollId": scrollId,
         "genres": genres
     }
-    console.warn("body", body)
     return theAxios
         .post(
             `${serverBaseDomain}/books/scroll`,
@@ -89,39 +88,41 @@ export const getScrollableBooksAPI = (agent, userToken, queryType, scrollId, gen
         });
 };
 // ----------------------------------------------------------------
-// export const updateProfileAPI = (agent, userToken, username, password) => {
-//     let { timeout, source } = createTimeout();
-//     let body = {
-//         "username": username,
-//         "password": password
-//     }
-//     return theAxios
-//         .put(`${serverBaseDomain}/profile`,
-//             body,
-//             {
-//                 cancelToken: source.token,
-//                 headers: {
-//                     agent,
-//                     Authorization: `bearer ${userToken}`
-//                 }
-//             })
-//         .then(res => {
-//             clearTimeout(timeout);
-//             console.warn("res", res)
-//             return res.data
-//         })
-//         .catch(err => {
-//             console.warn("updateProfileAPI_catch", err.response.status);
-//             let errorCode = 0;
-//             if ("response" in err
-//                 && err.response
-//                 && "status" in err.response
-//                 && err.response.status) {
-//                 errorCode = err.response.status
-//             }
-//             return Promise.reject({
-//                 ecode: "Services:APIs:User:Profile:UpdateProfile:2",
-//                 err, errorCode
-//             });
-//         });
-// };
+export const getBooksByIdsAPI = (agent, userToken, ids) => {
+    let { timeout, source } = createTimeout();
+    let body = {
+        "ids": ids
+    }
+    return theAxios
+        .post(
+            `${serverBaseDomain}/books/ids`,
+            body,
+            {
+                cancelToken: source.token,
+                headers: {
+                    agent,
+                    Authorization: `bearer ${userToken}`
+                }
+            }
+        )
+        .then(res => {
+            clearTimeout(timeout);
+            console.warn(res.data)
+            return res.data
+        })
+        .catch(err => {
+            console.warn(err)
+            console.warn("getBooksByIdsAPI_catch", err.response);
+            let errorCode = 0;
+            if ("response" in err
+                && err.response
+                && "status" in err.response
+                && err.response.status) {
+                errorCode = err.response.status
+            }
+            return Promise.reject({
+                ecode: "Services:APIs:User:Book:GetBooksByIdsAPI:2",
+                err, errorCode
+            });
+        });
+};

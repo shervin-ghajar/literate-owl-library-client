@@ -9,11 +9,16 @@ import {
     GET_SCROLLABLE_BOOKS_SUCCESS,
     GET_SCROLLABLE_BOOKS_FAILURE_NETWORK,
     GET_SCROLLABLE_BOOKS_FAILURE_VALIDATION,
+    GET_BOOKS_IDS_DEFAULT,
+    GET_BOOKS_IDS_STARTED,
+    GET_BOOKS_IDS_SUCCESS,
+    GET_BOOKS_IDS_FAILURE_NETWORK,
+    GET_BOOKS_IDS_FAILURE_VALIDATION,
     AUTHENTICATION_RESET,
 } from "./types";
 import NavigationService from '../services/navigators';
 import DeviceInfo from 'react-native-device-info';
-import { getAllBooksAPI, getScrollableBooksAPI } from "../services/apis/user/book";
+import { getAllBooksAPI, getScrollableBooksAPI, getBooksByIdsAPI } from "../services/apis/user/book";
 //-------------------------------------------------------------------------------------------------
 export const getAllBooks = (userToken) => {
     return dispatch => {
@@ -81,31 +86,36 @@ export const resetScrollId = () => {
         dispatch(resetScrollIdSuccess());
     };
 };
+//-------------------------------------------------------------------------------------------------
+export const getBooksByIds = (userToken, ids, idsType) => {
+    return dispatch => {
+        dispatch(getBooksByIdsStarted());
+        const agent = DeviceInfo.getUniqueId();
+        getBooksByIdsAPI(agent, userToken, ids)
+            .then(res => {
+                if (res
+                    && 'error' in res
+                    && !res.error
+                    && 'result' in res
+                    && res.result) {
+                    dispatch(getBooksByIdsSuccess({ books: res.result, idsType }))
+                    return;
+                }
+                console.warn("BAD_RESPONSE")
+                dispatch(getBooksByIdsFailure("BAD_RESPONSE"));
+            })
+            .catch(err => {
+                console.warn("getBooksByIds-action-catch", err.response)
+                console.warn(err.ecode, err.errorCode)
+                if (err.errorCode == 401) {
+                    dispatch(authenticationReset())
+                    return;
+                }
+                dispatch(getBooksByIdsFailure(err.ecode));
+            });
+    };
+};
 //--------------------------------------------------------------------------------------------------
-// export const getBooksByGenre = (userToken, username, password) => {
-//     return dispatch => {
-//         dispatch(updgetAllBooksStarted());
-//         const agent = DeviceInfo.getUniqueId();
-//         updgetAllBooksAPI(agent, userToken, username, password)
-//             .then(res => {
-//                 if (res.result && 'error' in res.result && !res.result.error) {
-//                     dispatch(authenticationReset())
-//                     return;
-//                 }
-//                 console.warn("BAD_RESPONSE")
-//                 dispatch(updgetAllBooksFailure("BAD_RESPONSE"));
-//             })
-//             .catch(err => {
-//                 console.warn(err.ecode, err.errorCode)
-//                 if (err.errorCode == 401) {
-//                     dispatch(authenticationReset())
-//                     return;
-//                 }
-//                 dispatch(updgetAllBooksFailure(err.ecode));
-//             });
-//     };
-// };
-// ----------------------------------------------------------------
 
 const getAllBooksStarted = () => ({
     type: GET_ALL_BOOKS_STARTED
@@ -141,6 +151,25 @@ const getScrollableBooksSuccess = data => ({
 
 const getScrollableBooksFailure = error => ({
     type: GET_SCROLLABLE_BOOKS_FAILURE_NETWORK,
+    payload: {
+        error
+    }
+});
+//--------------------------------------------------------------------------------------------------
+
+const getBooksByIdsStarted = () => ({
+    type: GET_BOOKS_IDS_STARTED
+});
+
+const getBooksByIdsSuccess = data => ({
+    type: GET_BOOKS_IDS_SUCCESS,
+    payload: {
+        ...data
+    }
+});
+
+const getBooksByIdsFailure = error => ({
+    type: GET_BOOKS_IDS_FAILURE_NETWORK,
     payload: {
         error
     }

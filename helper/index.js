@@ -13,3 +13,11 @@ export function numberSeperator(inpNativeNum = 0) {
     nativeNum = isLong ? number_p1 + "," + number_p2 : nativeNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     return isNeg ? `${nativeNum}-` : nativeNum;
 }
+//------------------------------------------------------------------------------------------------------
+export function numberJoiner(num) {
+    let number = num != undefined || num != null || num == "" ? (num + "").replace(/,/g, "") : null
+    if (!(Number(number)) && number != "") {
+        number = "NaN"
+    }
+    return number
+}

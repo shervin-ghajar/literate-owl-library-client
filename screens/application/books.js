@@ -34,7 +34,12 @@ class Books extends Component {
         }
     }
     renderWithLoading() {
-        return <Loading />
+
+        return (
+            <View style={{ marginVertical: 30, top: -15 }}>
+                <Loading />
+            </View>
+        )
     }
 
     render() {
