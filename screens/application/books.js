@@ -1,45 +1,95 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+//------------------------------------------------------------------------
+import { getScrollableBooks, resetScrollId } from '../../actions';
 import CardB2 from '../../components/cards/cardB2';
-
+import Loading from '../../components/loading';
+//------------------------------------------------------------------------
 class Books extends Component {
     constructor(props) {
         super(props);
         this.state = {
         };
+        this.handleScrollableBooks = this.handleScrollableBooks.bind(this)
+    }
+
+    componentDidMount() {
+        if (this.props.booksReducer.scrollableBooks.length == 0)
+            this.handleScrollableBooks()
+    }
+    componentWillUnmount() {
+        this.props.onResetScrollId()
+    }
+
+    handleScrollableBooks() {
+        switch (this.props.route.params.queryType) {
+            case 'genres':
+                this.props.onGetScrollableBooks(this.props.authenticationReducer.userToken, this.props.route.params.queryType, this.props.booksReducer.scrollId, this.props.route.params.genres)
+                break;
+            case 'new':
+            case 'free':
+            case 'popular':
+                this.props.onGetScrollableBooks(this.props.authenticationReducer.userToken, this.props.route.params.queryType, this.props.booksReducer.scrollId, null)
+        }
+    }
+    renderWithLoading() {
+        return <Loading />
     }
 
     render() {
-        let bookList = []
-        bookList = this.props.route.params.booksData.map(bookData => {
-            let { id, title, authors, price, rating, rating_count, image_url } = bookData
-            return (
-                <CardB2
-                    key={id}
-                    onCardBPress={() => { this.props.navigation.navigate("BookDetails", { bookData }) }}
-                    imageSource={image_url}
-                    first_text={title}
-                    second_text={authors[0]}
-                    third_text={price}
-                    fourth_text={rating_count}
-                    star_count={rating}
-                />
-            )
-        })
         return (
-            <ScrollView onMomentumScrollEnd={() => console.warn("123")}>
-                <View style={styles.container}>
-                    {bookList}
-                </View>
-            </ScrollView>
+            <SafeAreaView >
+                <FlatList
+                    style={styles.container}
+                    data={this.props.booksReducer.scrollableBooks}
+                    renderItem={({ item }) => {
+                        let { id, title, authors, price, rating, rating_count, image_url } = item
+                        return (
+                            <CardB2
+                                key={id}
+                                onCardBPress={() => { this.props.navigation.navigate("BookDetails", { bookData: item }) }}
+                                imageSource={image_url}
+                                first_text={title}
+                                second_text={authors[0]}
+                                third_text={price}
+                                fourth_text={rating_count}
+                                star_count={rating}
+                            />
+                        )
+                    }}
+                    keyExtractor={(item, index) => item.id}
+                    ListFooterComponent={this.renderWithLoading}
+                    onEndReached={this.handleScrollableBooks}
+                    initialNumToRender={20}
+                    onEndReachedThreshold={0.5}
+                    progressViewOffset={1}
+                />
+            </SafeAreaView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        margin: 20
+        padding: 20
     }
 })
 
-export default Books;
+//------------------------------------------------------------------------------------
+const mapStateToProps = state => {
+    let { authenticationReducer, booksReducer } = state;
+    return { authenticationReducer, booksReducer };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onGetScrollableBooks: (userToken, queryType, scrollId, genres) => {
+            dispatch(getScrollableBooks(userToken, queryType, scrollId, genres))
+        },
+        onResetScrollId: () => {
+            dispatch(resetScrollId())
+        }
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Books);

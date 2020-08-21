@@ -21,6 +21,7 @@ class BookStore extends Component {
         };
         this.getAllBooks = this.getAllBooks.bind(this)
         this.handleSeeAll = this.handleSeeAll.bind(this)
+        this.handleGenresOnPress = this.handleGenresOnPress.bind(this)
     }
 
     componentDidMount() {
@@ -49,8 +50,14 @@ class BookStore extends Component {
         )
     }
 
-    handleSeeAll(books) {
-        this.props.navigation.navigate('Books', { booksData: books })
+    handleSeeAll(queryType) { //books,
+        this.props.navigation.navigate('Books', { queryType })// booksData: books,
+    }
+
+    handleGenresOnPress(genreTitle) {
+        let genres = genreTitle.split("&")
+        genres = genres.map(genre => genre.trim())
+        this.props.navigation.navigate("Books", { queryType: 'genres', genres, genreTitle })
     }
 
     renderGenre() {
@@ -60,11 +67,11 @@ class BookStore extends Component {
                     <Text style={{ fontFamily: "NewYorkLarge-Bold", fontSize: 25 }}>Genres</Text>
                 </View>
                 <View style={{ marginHorizontal: 20 }}>
-                    <ButtonA2 onPress={() => { }} text={"Action & Adventure"} iconSource={require('../../../assets/icons/genres/gun.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Biographies & Memoirs"} iconSource={require('../../../assets/icons/genres/statue.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Childrens"} iconSource={require('../../../assets/icons/genres/train.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Comics & Graphic Novels"} imageContainer={{ width: 30 }} iconSource={require('../../../assets/icons/genres/bang.png')} />
-                    <ButtonA2 onPress={() => { this.props.navigation.navigate("Genres") }} text={"All Genres"} isBlackArrow textStyle={{ fontFamily: "Roboto-Bold" }} iconSource={require('../../../assets/icons/genres/all-genres.png')} />
+                    <ButtonA2 onPress={() => this.handleGenresOnPress("Action & Adventure")} text={"Action & Adventure"} iconSource={require('../../../assets/icons/genres/gun.png')} />
+                    <ButtonA2 onPress={() => this.handleGenresOnPress("Biography & Memoir")} text={"Biography & Memoir"} iconSource={require('../../../assets/icons/genres/statue.png')} />
+                    <ButtonA2 onPress={() => this.handleGenresOnPress("Childrens")} text={"Childrens"} iconSource={require('../../../assets/icons/genres/train.png')} />
+                    <ButtonA2 onPress={() => this.handleGenresOnPress("Comics & Graphic Novels")} text={"Comics & Graphic Novels"} imageContainer={{ width: 30 }} iconSource={require('../../../assets/icons/genres/bang.png')} />
+                    <ButtonA2 onPress={() => { this.props.navigation.navigate("Books") }} text={"All Genres"} isBlackArrow textStyle={{ fontFamily: "Roboto-Bold" }} iconSource={require('../../../assets/icons/genres/all-genres.png')} />
                 </View>
             </>
         )
@@ -125,13 +132,13 @@ class BookStore extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <CardS1 onSeeAllPress={() => this.handleSeeAll(this.props.booksReducer.newBooks)} title={"New Releases"} subTitle={"Recently released books."} >
+                    <CardS1 onSeeAllPress={() => this.handleSeeAll('new')} title={"New Releases"} subTitle={"Recently released books."} >
                         {newBooks}
                     </CardS1>
-                    <CardS1 onSeeAllPress={() => this.handleSeeAll(this.props.booksReducer.freeBooks)} title={"Free"} subTitle={"Free books of the week"} >
+                    <CardS1 onSeeAllPress={() => this.handleSeeAll('free')} title={"Free"} subTitle={"Free books of the week"} >
                         {freeBooks}
                     </CardS1>
-                    <CardS1 onSeeAllPress={() => this.handleSeeAll(this.props.booksReducer.popularBooks)} title={"You Must Read"} subTitle={"Most rated 100 books written by the best authors."}>
+                    <CardS1 onSeeAllPress={() => this.handleSeeAll('popular')} title={"You Must Read"} subTitle={"Most rated 100 books written by the best authors."}>
                         {popularBooks}
                     </CardS1>
                     {this.renderGenre()}

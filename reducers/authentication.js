@@ -28,7 +28,6 @@ export function authenticationReducer(state = initialState, action) {
                 error: null
             };
         case AUTHENTICATION_SUCCESS:
-            console.warn("token", action.payload)
             return {
                 ...state,
                 rtype: AUTHENTICATION_SUCCESS,

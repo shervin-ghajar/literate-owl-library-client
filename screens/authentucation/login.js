@@ -60,7 +60,6 @@ class Login extends Component {
     }
 
     render() {
-        console.warn(this.props.authenticationReducer.rtype)
         return (
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.headerContainer}>

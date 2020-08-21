@@ -10,24 +10,30 @@ class Genres extends Component {
         };
     }
 
+    handleOnPress(genreTitle) {
+        let genres = genreTitle.split("&")
+        genres = genres.map(genre => genre.trim())
+        this.props.navigation.navigate("Books", { queryType: 'genres', genres, genreTitle })
+    }
+
     render() {
         return (
             <ScrollView contentContainerStyle={styles.scrollViewContainer}>
                 <View style={styles.contentContainer}>
-                    <ButtonA2 onPress={() => { }} text={"Action & Adventure"} iconSource={require('../../assets/icons/genres/gun.png')} btnStyle={{ borderTopWidth: 0 }} />
-                    <ButtonA2 onPress={() => { }} text={"Biographies & Memoirs"} iconSource={require('../../assets/icons/genres/statue.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Childrens"} iconSource={require('../../assets/icons/genres/train.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Comics & Graphic Novels"} iconSource={require('../../assets/icons/genres/bang.png')} imageContainer={{ width: 30 }} />
-                    <ButtonA2 onPress={() => { }} text={"Coocbooks"} iconSource={require('../../assets/icons/genres/cook.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Education"} iconSource={require('../../assets/icons/genres/education.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Fiction & Literature"} iconSource={require('../../assets/icons/genres/typewriter.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Historical"} iconSource={require('../../assets/icons/genres/historical.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Mysteries & Thrillers"} iconSource={require('../../assets/icons/genres/detective.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Nonfiction"} iconSource={require('../../assets/icons/genres/nonfiction.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Politics"} iconSource={require('../../assets/icons/genres/whitehouse.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Religion & Spirituality"} iconSource={require('../../assets/icons/genres/hamsa.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Sci-fi & Fantasy"} iconSource={require('../../assets/icons/genres/dragon.png')} />
-                    <ButtonA2 onPress={() => { }} text={"Young Adult"} iconSource={require('../../assets/icons/genres/young_adult.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Action & Adventure")} text={"Action & Adventure"} iconSource={require('../../assets/icons/genres/gun.png')} btnStyle={{ borderTopWidth: 0 }} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Biography & Memoir")} text={"Biography & Memoir"} iconSource={require('../../assets/icons/genres/statue.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Childrens")} text={"Childrens"} iconSource={require('../../assets/icons/genres/train.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Comics & Graphic Novels")} text={"Comics & Graphic Novels"} iconSource={require('../../assets/icons/genres/bang.png')} imageContainer={{ width: 30 }} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Coocbooks")} text={"Coocbooks"} iconSource={require('../../assets/icons/genres/cook.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Education")} text={"Education"} iconSource={require('../../assets/icons/genres/education.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Fiction & Literature")} text={"Fiction & Literature"} iconSource={require('../../assets/icons/genres/typewriter.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Historical")} text={"Historical"} iconSource={require('../../assets/icons/genres/historical.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Mysteries & Thrillers")} text={"Mysteries & Thrillers"} iconSource={require('../../assets/icons/genres/detective.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Nonfiction")} text={"Nonfiction"} iconSource={require('../../assets/icons/genres/nonfiction.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Politics")} text={"Politics"} iconSource={require('../../assets/icons/genres/whitehouse.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Religion & Spirituality")} text={"Religion & Spirituality"} iconSource={require('../../assets/icons/genres/hamsa.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Sci-fi & Fantasy")} text={"Sci-fi & Fantasy"} iconSource={require('../../assets/icons/genres/dragon.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Young Adult")} text={"Young Adult"} iconSource={require('../../assets/icons/genres/young_adult.png')} />
                 </View>
             </ScrollView>
         );

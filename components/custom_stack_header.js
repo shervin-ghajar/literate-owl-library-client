@@ -12,8 +12,9 @@ export default class StackHeader extends Component {
 
     renderTexts() {
         let title = null
+        console.warn(this.props.scene.route.params)
         if ("state" in this.props.scene.route) {
-            switch (this.props.scene.route.state.routeNames[this.props.scene.route.state.index]) {
+            switch (this.props.scene.route.state.routeNames[this.props.scene.route.state.index]) { //Tabs
                 case "Book Store":
                     title = "Book Store"
                     this.hasFilter = true
@@ -27,6 +28,23 @@ export default class StackHeader extends Component {
                     this.hasFilter = false
                     break;
             }
+        }
+        if ('params' in this.props.scene.route && this.props.scene.route.params) {
+            if ('queryType' in this.props.scene.route.params)
+                switch (this.props.scene.route.params.queryType) { //Stack
+                    case "new":
+                        title = "New Releases"
+                        break;
+                    case "free":
+                        title = "Free"
+                        break;
+                    case "popular":
+                        title = "You Must Read"
+                        break;
+                    case "genres":
+                        title = this.props.scene.route.params.genreTitle
+                        break;
+                }
         }
         if (this.props.scene.descriptor.options.title) {
             return (

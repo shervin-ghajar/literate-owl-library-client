@@ -88,7 +88,6 @@ export const signupAPI = (agent, email, username, password) => {
 };
 // ----------------------------------------------------------------
 export const logoutAPI = (agent, userToken) => {
-    console.warn(agent, userToken)
     let { timeout, source } = createTimeout();
     return theAxios
         .post(
