@@ -34,8 +34,10 @@ class Wishlist extends Component {
     }
 
     handleBooksByIds() {
-        let idsType = "wishlist"
-        this.props.onGetBooksByIds(this.props.authenticationReducer.userToken, this.props.profileReducer.wishlist, idsType)
+        if (this.props.profileReducer.wishlist.length > 0) {
+            let idsType = "wishlist"
+            this.props.onGetBooksByIds(this.props.authenticationReducer.userToken, this.props.profileReducer.wishlist, idsType)
+        }
     }
 
     renderWithLoading() {
@@ -58,7 +60,8 @@ class Wishlist extends Component {
     renderDefault() {
         let books = []
         console.warn(this.props.booksReducer.wished)
-        books = this.props.booksReducer.wished.map(bookData => {
+        let length = this.props.booksReducer.wished.length
+        books = this.props.booksReducer.wished.map((bookData, i) => {
             let { id, title, authors, price, rating, rating_count, image_url } = bookData
             return (
                 <CardB2
@@ -70,6 +73,7 @@ class Wishlist extends Component {
                     third_text={price}
                     fourth_text={rating_count}
                     star_count={rating}
+                    cardContainerStyle={length == i + 1 ? { borderBottomWidth: 0 } : {}}
                 />
             )
         })

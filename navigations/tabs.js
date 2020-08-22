@@ -61,6 +61,7 @@ export default class AppStacks extends Component {
                     },
                 })}
                 tabBarOptions={{
+                    keyboardHidesTabBar: true,
                     tabStyle: {
                         backgroundColor: primaryBackground,
                     },

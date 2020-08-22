@@ -98,12 +98,12 @@ class Account extends Component {
                                 onPress={() => this.props.onLogout(this.props.authenticationReducer.userToken)}
                                 text={"Yes"}
                                 containerStyle={{ width: 120 }}
-                                btnStyle={{ backgroundColor: dullOrangeColor }}
                             />
                             <ButtonR2
                                 onPress={this.handleLogoutModal}
                                 text={"No"}
                                 containerStyle={{ width: 120 }}
+                                btnStyle={{ backgroundColor: dullOrangeColor }}
                             />
                         </View>
                     </>

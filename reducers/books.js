@@ -15,17 +15,24 @@ import {
     GET_SCROLLABLE_BOOKS_SUCCESS,
     GET_SCROLLABLE_BOOKS_FAILURE_NETWORK,
     GET_SCROLLABLE_BOOKS_FAILURE_VALIDATION,
+    SEARCH_DEFAULT,
+    SEARCH_STARTED,
+    SEARCH_SUCCESS,
+    SEARCH_FAILURE_NETWORK,
+    SEARCH_FAILURE_VALIDATION,
 } from '../actions/types';
 // ----------------------------------------------------------------
 const initialState = {
     rtype: GET_ALL_BOOKS_DEFAULT,
     bIdsType: GET_BOOKS_IDS_DEFAULT,
+    srchRType: SEARCH_DEFAULT,
     scrlType: GET_SCROLLABLE_BOOKS_DEFAULT,
     new_books: [],
     free_books: [],
     popular_books: [],
     wished: [],
     purchased: [],
+    search: [],
     scrollableBooks: [],
     scrollId: null,
     error: null
@@ -153,6 +160,41 @@ export function booksReducer(state = initialState, action) {
             return {
                 ...state,
                 bIdsType: GET_BOOK_IDS_FAILURE_NETWORK,
+                error: action.payload.error
+            };
+        //------------------------------------------------------------------
+        case SEARCH_DEFAULT:
+            return {
+                ...state,
+                srchRType: SEARCH_DEFAULT,
+                search: [],
+                error: null
+            }
+        case SEARCH_STARTED:
+            return {
+                ...state,
+                srchRType: SEARCH_STARTED,
+                error: null
+            };
+        case SEARCH_SUCCESS:
+            return {
+                ...state,
+                srchRType: SEARCH_SUCCESS,
+                search: action.payload.books,
+                error: null
+            };
+        case SEARCH_FAILURE_VALIDATION:
+            return {
+                ...state,
+                srchRType: SEARCH_FAILURE_VALIDATION,
+                search: [],
+                error: action.payload.error
+            };
+        case SEARCH_FAILURE_NETWORK:
+            return {
+                ...state,
+                srchRType: SEARCH_FAILURE_NETWORK,
+                search: [],
                 error: action.payload.error
             };
         default:

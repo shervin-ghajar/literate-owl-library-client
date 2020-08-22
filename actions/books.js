@@ -14,11 +14,16 @@ import {
     GET_BOOKS_IDS_SUCCESS,
     GET_BOOKS_IDS_FAILURE_NETWORK,
     GET_BOOKS_IDS_FAILURE_VALIDATION,
+    SEARCH_DEFAULT,
+    SEARCH_STARTED,
+    SEARCH_SUCCESS,
+    SEARCH_FAILURE_NETWORK,
+    SEARCH_FAILURE_VALIDATION,
     AUTHENTICATION_RESET,
 } from "./types";
 import NavigationService from '../services/navigators';
 import DeviceInfo from 'react-native-device-info';
-import { getAllBooksAPI, getScrollableBooksAPI, getBooksByIdsAPI } from "../services/apis/user/book";
+import { getAllBooksAPI, getScrollableBooksAPI, getBooksByIdsAPI, searchAPI } from "../services/apis/user/book";
 //-------------------------------------------------------------------------------------------------
 export const getAllBooks = (userToken) => {
     return dispatch => {
@@ -115,6 +120,35 @@ export const getBooksByIds = (userToken, ids, idsType) => {
             });
     };
 };
+//-------------------------------------------------------------------------------------------------
+export const search = (userToken, query) => {
+    return dispatch => {
+        dispatch(searchStarted());
+        const agent = DeviceInfo.getUniqueId();
+        searchAPI(agent, userToken, query)
+            .then(res => {
+                if (res
+                    && 'error' in res
+                    && !res.error
+                    && 'result' in res
+                    && res.result) {
+                    dispatch(searchSuccess({ books: res.result }))
+                    return;
+                }
+                console.warn("BAD_RESPONSE")
+                dispatch(searchFailure("BAD_RESPONSE"));
+            })
+            .catch(err => {
+                console.warn("search-action-catch", err.response)
+                console.warn(err.ecode, err.errorCode)
+                if (err.errorCode == 401) {
+                    dispatch(authenticationReset())
+                    return;
+                }
+                dispatch(searchFailure(err.ecode));
+            });
+    };
+};
 //--------------------------------------------------------------------------------------------------
 
 const getAllBooksStarted = () => ({
@@ -170,6 +204,24 @@ const getBooksByIdsSuccess = data => ({
 
 const getBooksByIdsFailure = error => ({
     type: GET_BOOKS_IDS_FAILURE_NETWORK,
+    payload: {
+        error
+    }
+});
+
+const searchStarted = () => ({
+    type: SEARCH_STARTED
+});
+
+const searchSuccess = data => ({
+    type: SEARCH_SUCCESS,
+    payload: {
+        ...data
+    }
+});
+
+const searchFailure = error => ({
+    type: SEARCH_FAILURE_NETWORK,
     payload: {
         error
     }

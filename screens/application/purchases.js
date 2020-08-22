@@ -54,8 +54,8 @@ class Purchases extends Component {
 
     renderDefault() {
         let books = []
-        console.warn(this.props.booksReducer.purchased)
-        books = this.props.booksReducer.purchased.map(bookData => {
+        let length = this.props.booksReducer.purchased.length
+        books = this.props.booksReducer.purchased.map((bookData, i) => {
             let { id, title, authors, price, rating, rating_count, image_url } = bookData
             return (
                 <CardB2
@@ -67,6 +67,7 @@ class Purchases extends Component {
                     third_text={price}
                     fourth_text={rating_count}
                     star_count={rating}
+                    cardContainerStyle={length == i + 1 ? { borderBottomWidth: 0 } : {}}
                 />
             )
         })

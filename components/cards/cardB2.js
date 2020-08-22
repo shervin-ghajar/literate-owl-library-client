@@ -6,10 +6,10 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import { serverIPAddress } from '../../config';
 import { numberSeperator } from '../../helper';
 //---------------------------------------------------------------------------
-const CardB2 = ({ first_text, second_text, third_text, fourth_text, star_count, imageSource, onCardBPress }) => {
+const CardB2 = ({ first_text, second_text, third_text, fourth_text, star_count, imageSource, onCardBPress, cardContainerStyle, ratingTintColor }) => {
     third_text = third_text == "0" ? "Free" : `$${third_text}`
     return (
-        <TouchableOpacity onPress={onCardBPress} style={styles.cardContainer}>
+        <TouchableOpacity onPress={onCardBPress} style={[styles.cardContainer, cardContainerStyle]}>
             <View style={styles.imageContainer}>
                 {
                     imageSource ?
@@ -37,7 +37,7 @@ const CardB2 = ({ first_text, second_text, third_text, fourth_text, star_count, 
                         type='custom'
                         startingValue={star_count}
                         ratingColor={dullOrangeColor}
-                        tintColor={"#ededed"}
+                        tintColor={ratingTintColor || "#ededed"}
                         ratingCount={5}
                         imageSize={14}
                         showRating={false}

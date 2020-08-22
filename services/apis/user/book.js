@@ -126,3 +126,41 @@ export const getBooksByIdsAPI = (agent, userToken, ids) => {
             });
         });
 };
+// ----------------------------------------------------------------
+export const searchAPI = (agent, userToken, query) => {
+    let { timeout, source } = createTimeout();
+    let body = {
+        "query": query
+    }
+    return theAxios
+        .post(
+            `${serverBaseDomain}/books/search`,
+            body,
+            {
+                cancelToken: source.token,
+                headers: {
+                    agent,
+                    Authorization: `bearer ${userToken}`
+                }
+            }
+        )
+        .then(res => {
+            clearTimeout(timeout);
+            return res.data
+        })
+        .catch(err => {
+            console.warn(err)
+            console.warn("searchAPI_catch", err.response);
+            let errorCode = 0;
+            if ("response" in err
+                && err.response
+                && "status" in err.response
+                && err.response.status) {
+                errorCode = err.response.status
+            }
+            return Promise.reject({
+                ecode: "Services:APIs:User:Book:SearchAPI:2",
+                err, errorCode
+            });
+        });
+};
