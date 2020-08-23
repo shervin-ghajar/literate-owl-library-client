@@ -24,7 +24,9 @@ class Account extends Component {
     }
 
     componentDidMount() {
-        this.props.onGetProfile(this.props.authenticationReducer.userToken)
+        // this.props.navigation.addListener('focus', () => {
+        //     this.props.onGetProfile(this.props.authenticationReducer.userToken)
+        // })
     }
 
     handleLogoutModal() {

@@ -15,7 +15,8 @@ class Login extends Component {
             email: "",
             emailErr: "",
             password: "",
-            passwordErr: ""
+            passwordErr: "",
+            isSecure: true
         };
         this.isFormValidate = this.isFormValidate.bind(this);
         this.validate = this.validate.bind(this);
@@ -88,7 +89,9 @@ class Login extends Component {
                         value={this.state.password}
                         labelTitle={"Password"}
                         autoCapitalize='none'
-                        isSecure
+                        isSecure={this.state.isSecure}
+                        hasSecureEye
+                        onPressSecureEye={() => this.setState((state) => ({ isSecure: !state.isSecure }))}
                         onEndEditing={(e) => {
                             let password = (e.nativeEvent.text).trim()
                             this.setState({ password }, () => {

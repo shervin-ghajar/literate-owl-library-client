@@ -12,6 +12,7 @@ import {
     GET_BOOKS_IDS_FAILURE_NETWORK,
     GET_BOOKS_IDS_FAILURE_VALIDATION,
     GET_ALL_BOOKS_FAILURE_NETWORK,
+    HANDLE_WISHED_BOOKS,
 } from '../../actions/types';
 import ButtonR1 from '../../components/buttons/buttonR1';
 import { dullOrangeColor } from '../../assets/colors';
@@ -25,16 +26,12 @@ class Wishlist extends Component {
     }
 
     componentDidMount() {
-        this.focusListener = this.props.navigation.addListener("focus", () => {
-            this.handleBooksByIds()
-        });
-    }
-    componentWillUnmount() {
-        this.focusListener();
+        this.handleBooksByIds()
     }
 
+
     handleBooksByIds() {
-        if (this.props.profileReducer.wishlist.length > 0) {
+        if (this.props.profileReducer.wishlist.length > 0 && this.props.booksReducer.wishlistChanged) {
             let idsType = "wishlist"
             this.props.onGetBooksByIds(this.props.authenticationReducer.userToken, this.props.profileReducer.wishlist, idsType)
         }
@@ -60,23 +57,26 @@ class Wishlist extends Component {
     renderDefault() {
         let books = []
         console.warn(this.props.booksReducer.wished)
-        let length = this.props.booksReducer.wished.length
-        books = this.props.booksReducer.wished.map((bookData, i) => {
-            let { id, title, authors, price, rating, rating_count, image_url } = bookData
-            return (
-                <CardB2
-                    key={id}
-                    onCardBPress={() => { this.props.navigation.navigate("BookDetails", { bookData }) }}
-                    imageSource={image_url}
-                    first_text={title}
-                    second_text={authors[0]}
-                    third_text={price}
-                    fourth_text={rating_count}
-                    star_count={rating}
-                    cardContainerStyle={length == i + 1 ? { borderBottomWidth: 0 } : {}}
-                />
-            )
-        })
+        if (this.props.booksReducer.wished && (this.props.booksReducer.bIdsType == HANDLE_WISHED_BOOKS || this.props.booksReducer.bIdsType == GET_BOOKS_IDS_SUCCESS)) {
+            let length = this.props.booksReducer.wished ? this.props.booksReducer.wished.length : 0
+            books = this.props.booksReducer.wished.map((bookData, i) => {
+                let { id, title, authors, price, rating, rating_count, image_url } = bookData
+                return (
+                    <CardB2
+                        key={id}
+                        onCardBPress={() => { this.props.navigation.navigate("BookDetails", { bookData }) }}
+                        imageSource={image_url}
+                        first_text={title}
+                        second_text={authors[0]}
+                        third_text={price}
+                        fourth_text={rating_count}
+                        star_count={rating}
+                        cardContainerStyle={length == i + 1 ? { borderBottomWidth: 0 } : {}}
+                    />
+                )
+            })
+        }
+
         return (
             <ScrollView>
                 <View style={styles.container}>

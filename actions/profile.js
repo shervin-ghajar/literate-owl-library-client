@@ -20,6 +20,7 @@ import {
     HANDLE_WISHLIST_SUCCESS,
     HANDLE_WISHLIST_FAILURE_NETWORK,
     HANDLE_WISHLIST_FAILURE_VALIDATION,
+    HANDLE_WISHED_BOOKS
 } from "./types";
 import NavigationService from '../services/navigators';
 import DeviceInfo from 'react-native-device-info';
@@ -139,7 +140,7 @@ export const purchase = (userToken, bookId) => {
     };
 };
 // ----------------------------------------------------------------
-export const handleWishlist = (userToken, bookId) => {
+export const handleWishlist = (userToken, bookData, bookId) => {
     return dispatch => {
         dispatch(handleWishlistStarted());
         const agent = DeviceInfo.getUniqueId();
@@ -151,6 +152,7 @@ export const handleWishlist = (userToken, bookId) => {
                     && 'result' in res
                     && res.result) {
                     dispatch(handleWishlistSuccess(res.result))
+                    dispatch(handleWishedBooks(bookData))
                     return;
                 }
                 console.warn("BAD_RESPONSE")
@@ -244,4 +246,9 @@ const handleWishlistFailure = error => ({
     payload: {
         error
     }
+});
+//-----------------------------------------------------------------
+const handleWishedBooks = data => ({
+    type: HANDLE_WISHED_BOOKS,
+    payload: data
 });

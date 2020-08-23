@@ -70,7 +70,7 @@ class BookStore extends Component {
                     <ButtonA2 onPress={() => this.handleGenresOnPress("Action & Adventure")} text={"Action & Adventure"} iconSource={require('../../../assets/icons/genres/gun.png')} />
                     <ButtonA2 onPress={() => this.handleGenresOnPress("Biography & Memoir")} text={"Biography & Memoir"} iconSource={require('../../../assets/icons/genres/statue.png')} />
                     <ButtonA2 onPress={() => this.handleGenresOnPress("Childrens")} text={"Childrens"} iconSource={require('../../../assets/icons/genres/train.png')} />
-                    <ButtonA2 onPress={() => this.handleGenresOnPress("Comics & Graphic Novels")} text={"Comics & Graphic Novels"} imageContainer={{ width: 30 }} iconSource={require('../../../assets/icons/genres/bang.png')} />
+                    <ButtonA2 onPress={() => this.handleGenresOnPress("Comics & Graphic Novels")} text={"Comics & Graphic Novels"} imageContainer={{ width: 25, height: 20 }} iconSource={require('../../../assets/icons/genres/bang.png')} />
                     <ButtonA2 onPress={() => { this.props.navigation.navigate("Genres") }} text={"All Genres"} isBlackArrow textStyle={{ fontFamily: "Roboto-Bold" }} iconSource={require('../../../assets/icons/genres/all-genres.png')} />
                 </View>
             </>

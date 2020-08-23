@@ -11,11 +11,8 @@ class Search extends Component {
         super(props);
         this.state = {
             query: '',
-            firstQueryTime: 0,
-            secondQueryTime: 0
         };
         this.queryQueue = this.queryQueue.bind(this)
-        this.validateDiffQueryTime = this.validateDiffQueryTime.bind(this)
     }
     componentDidMount() {
         // this.props.navigation.addListener('tabPress', () => {
@@ -24,30 +21,19 @@ class Search extends Component {
     }
 
     queryQueue(query) {
-        let firstQueryTime = (new Date()).getTime()
-        this.setState({ firstQueryTime }, () => {
-            console.warn(123)
-            this.props.onSearch(this.props.authenticationReducer.userToken, query)
-        })
-    }
-
-    validateDiffQueryTime(query) {
         let trimQuery = query.trim()
-        let isValid = false
-        if (this.state.secondQueryTime && trimQuery && trimQuery != "" && trimQuery.length >= 3) {
-            isValid = (this.state.secondQueryTime - this.state.firstQueryTime) >= 1000
+        if (trimQuery.length >= 3) {
+            this.queryTimeout = setTimeout(() => {
+                this.props.onSearch(this.props.authenticationReducer.userToken, query)
+            }, 500);
         }
-
-        // console.warn(this.state.secondQueryTime - this.state.firstQueryTime, isValid)
-        return isValid
     }
 
     handleQueryChange(query) {
-        let secondQueryTime = (new Date()).getTime()
-        this.setState({ query, secondQueryTime });
-        if (this.validateDiffQueryTime(query)) {
+        clearTimeout(this.queryTimeout)
+        this.setState({ query }, () => {
             this.queryQueue(query)
-        }
+        })
     }
 
     renderSearchResults() {

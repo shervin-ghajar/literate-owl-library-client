@@ -20,6 +20,7 @@ import {
     SEARCH_SUCCESS,
     SEARCH_FAILURE_NETWORK,
     SEARCH_FAILURE_VALIDATION,
+    HANDLE_WISHED_BOOKS
 } from '../actions/types';
 // ----------------------------------------------------------------
 const initialState = {
@@ -31,6 +32,7 @@ const initialState = {
     free_books: [],
     popular_books: [],
     wished: [],
+    wishlistChanged: true,
     purchased: [],
     search: [],
     scrollableBooks: [],
@@ -148,6 +150,7 @@ export function booksReducer(state = initialState, action) {
                 bIdsType: GET_BOOKS_IDS_SUCCESS,
                 wished,
                 purchased,
+                wishlistChanged: false,
                 error: null
             };
         case GET_BOOKS_IDS_FAILURE_VALIDATION:
@@ -195,6 +198,20 @@ export function booksReducer(state = initialState, action) {
                 ...state,
                 srchRType: SEARCH_FAILURE_NETWORK,
                 search: [],
+                error: action.payload.error
+            };
+        //---------------------------------------------------------
+        case HANDLE_WISHED_BOOKS:
+            let tmp = state.wished
+            let newWishList = tmp
+            if (tmp && tmp.length > 0) {
+                let isWishlisted = tmp.some(el => el.id == action.payload.id)
+                newWishList = isWishlisted ? tmp.filter(el => el.id != action.payload.id) : [action.payload, ...tmp]
+            }
+            return {
+                ...state,
+                bIdsType: HANDLE_WISHED_BOOKS,
+                wished: newWishList,
                 error: action.payload.error
             };
         default:

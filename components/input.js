@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { secondaryBackground, darkSlateBlueColor, primaryBackground, blackColor, errorColor } from '../assets/colors';
 
 export default class Input extends Component {
@@ -62,6 +62,20 @@ export default class Input extends Component {
                         <Text style={[{ zIndex: 999, fontSize: 20, fontFamily: 'Roboto-Regular', color: this.props.error ? errorColor : darkSlateBlueColor, textAlign: 'left', opacity: 0.7, bottom: 20, left: -15, position: "absolute" }, this.props.labelStyle]}>$</Text>
                         : null
                 }
+                {
+                    this.props.hasSecureEye ?
+                        <TouchableOpacity hitSlop={{ left: 20, right: 30, top: 10, bottom: 10 }} style={{ position: "absolute", right: 5, top: 28, zIndex: 10, backgroundColor: primaryBackground, justifyContent: "center", alignSelf: "flex-end" }} onPress={this.props.onPressSecureEye}>
+                            <View style={[styles.imageContainer, this.props.imageContainer]}>
+                                {
+                                    this.props.isSecure ?
+                                        <Image source={require('../assets/icons/password-eye-secure.png')} style={styles.contentImage} />
+                                        :
+                                        <Image source={require('../assets/icons/password-eye.png')} style={[styles.contentImage]} />
+                                }
+                            </View>
+                        </TouchableOpacity>
+                        : null
+                }
                 <TextInput
                     editable={this.props.editable == undefined ? true : this.props.editable}
                     onContentSizeChange={(event) => {
@@ -99,9 +113,21 @@ export default class Input extends Component {
                         }, this.props.style]}
                 />
                 {/* {this.props.isAmount ? <Text style={{ position: "absolute", zIndex: 999, bottom: this.props.error ? 15 : 0, left: 10, fontSize: 10, padding: 3, fontFamily: 'Roboto-Regular', color: 'gray', textAlign: 'left' }}>تومان</Text> : null} */}
-                <Text style={[{ fontFamily: 'Roboto-Regular', fontSize: 12, color: errorColor, textAlign: 'left' }, this.props.errorStyle]}>{this.props.error || null}</Text>
+                <Text style={[{ fontFamily: 'Roboto-Regular', fontSize: 12, color: errorColor, textAlign: 'left' }, this.props.errorStyle]}>{this.props.error || ""}</Text>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    imageContainer: {
+        height: 20,
+        width: 20,
+        margin: 3,
+    },
+    contentImage: {
+        width: "100%",
+        height: "100%",
+    },
+})
 

@@ -30,8 +30,8 @@ class BookDetails extends Component {
         this.handlePurchaseModal = this.handlePurchaseModal.bind(this)
     }
 
-    handleWishlist(bookId) {
-        this.props.onHandleWishlist(this.props.authenticationReducer.userToken, bookId)
+    handleWishlist(bookData, bookId) {
+        this.props.onHandleWishlist(this.props.authenticationReducer.userToken, bookData, bookId)
     }
 
     handlePurchaseModal() {
@@ -96,7 +96,7 @@ class BookDetails extends Component {
                         btnStyle={{ width: 260, height: 45, marginRight: 10 }}
                     />
                     <ButtonR2
-                        onPress={() => this.handleWishlist(id)}
+                        onPress={() => this.handleWishlist(this.bookData, id)}
                         iconSource={
                             isWished ?
                                 require('../../assets/icons/wishlist-focus.png')
@@ -272,8 +272,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        onHandleWishlist: (userToken, bookId) => {
-            dispatch(handleWishlist(userToken, bookId))
+        onHandleWishlist: (userToken, bookData, bookId) => {
+            dispatch(handleWishlist(userToken, bookData, bookId))
         },
         onHandlePurchase: (userToken, bookId) => {
             dispatch(purchase(userToken, bookId))
