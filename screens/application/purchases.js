@@ -88,7 +88,7 @@ class Purchases extends Component {
         } else if (this.props.booksReducer.bIdsType == GET_BOOKS_IDS_FAILURE_NETWORK) {
             return this.renderWithReload()
         }
-        return this.renderWithLoading()
+        return this.renderDefault()
     }
 }
 

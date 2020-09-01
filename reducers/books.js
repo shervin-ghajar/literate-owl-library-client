@@ -137,9 +137,11 @@ export function booksReducer(state = initialState, action) {
         case GET_BOOKS_IDS_SUCCESS:
             let wished = state.wished
             let purchased = state.purchased
+            let wishlistChanged = state.wishlistChanged
             switch (action.payload.idsType) {
                 case 'wishlist':
                     wished = action.payload.books
+                    wishlistChanged = false
                     break;
                 case 'purchased':
                     purchased = action.payload.books
@@ -150,7 +152,7 @@ export function booksReducer(state = initialState, action) {
                 bIdsType: GET_BOOKS_IDS_SUCCESS,
                 wished,
                 purchased,
-                wishlistChanged: false,
+                wishlistChanged,
                 error: null
             };
         case GET_BOOKS_IDS_FAILURE_VALIDATION:

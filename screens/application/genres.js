@@ -24,7 +24,7 @@ class Genres extends Component {
                     <ButtonA2 onPress={() => this.handleOnPress("Biography & Memoir")} text={"Biography & Memoir"} iconSource={require('../../assets/icons/genres/statue.png')} />
                     <ButtonA2 onPress={() => this.handleOnPress("Childrens")} text={"Childrens"} iconSource={require('../../assets/icons/genres/train.png')} />
                     <ButtonA2 onPress={() => this.handleOnPress("Comics & Graphic Novels")} text={"Comics & Graphic Novels"} imageContainer={{ width: 25, height: 20 }} iconSource={require('../../assets/icons/genres/bang.png')} />
-                    <ButtonA2 onPress={() => this.handleOnPress("Coocbooks")} text={"Coocbooks"} iconSource={require('../../assets/icons/genres/cook.png')} />
+                    <ButtonA2 onPress={() => this.handleOnPress("Cook")} text={"Cookbooks"} iconSource={require('../../assets/icons/genres/cook.png')} />
                     <ButtonA2 onPress={() => this.handleOnPress("Education")} text={"Education"} iconSource={require('../../assets/icons/genres/education.png')} />
                     <ButtonA2 onPress={() => this.handleOnPress("Fiction & Literature")} text={"Fiction & Literature"} iconSource={require('../../assets/icons/genres/typewriter.png')} />
                     <ButtonA2 onPress={() => this.handleOnPress("Historical")} text={"Historical"} iconSource={require('../../assets/icons/genres/historical.png')} />
