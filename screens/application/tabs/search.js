@@ -27,10 +27,10 @@ class Search extends Component {
 
     queryQueue(query) {
         let trimQuery = query.trim()
-        if (trimQuery.length >= 3) {
+        if (trimQuery.length >= 3 && this.props.booksReducer.srchRType != SEARCH_STARTED) {
             this.queryTimeout = setTimeout(() => {
                 this.props.onSearch(this.props.authenticationReducer.userToken, query)
-            }, 50);
+            }, 350);
         }
     }
 

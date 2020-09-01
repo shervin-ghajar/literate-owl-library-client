@@ -35,7 +35,7 @@ export const login = (email, password) => {
                     showMessage({
                         message: `Welcome back ${username}`,
                         type: 'none',
-                        duration: 4000,
+                        duration: 500,
                         backgroundColor: greyBlueBackground,
                         textStyle: {
                             fontFamily: "Roboto-Regular",
@@ -91,7 +91,7 @@ export const signup = (email, username, password) => {
                     showMessage({
                         message: `Welcome ${username}`,
                         type: 'none',
-                        duration: 4000,
+                        duration: 500,
                         backgroundColor: greyBlueBackground,
                         textStyle: {
                             fontFamily: "Roboto-Regular",
