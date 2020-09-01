@@ -13,11 +13,9 @@ import { handleWishlist, purchase } from '../../actions';
 class BookDetails extends Component {
     constructor(props) {
         super(props);
-        this.bookId = null
         this.bookData = {}
         if ('bookData' in this.props.route.params
             && this.props.route.params.bookData) {
-            this.bookId = this.props.route.params.bookData.id
             this.bookData = this.props.route.params.bookData
         } else {
             this.props.navigation.pop()
@@ -48,7 +46,7 @@ class BookDetails extends Component {
         let { id, image_url, title, authors, price, rating, rating_count, desc, genres, pages, year } = this.bookData
         let isWished = false
         if (this.props.profileReducer.wishlist.length > 0) {
-            isWished = this.props.profileReducer.wishlist.includes(this.bookId)
+            isWished = this.props.profileReducer.wishlist.includes(id)
         }
         let isBalanceValid = (this.props.profileReducer.balance >= price)
         let isPurchased = false
@@ -93,7 +91,7 @@ class BookDetails extends Component {
                         text={isPurchased ? "Purchased" : (price == 0 ? 'Free' : `Buy $${price}`)}
                         disabled={isPurchased}
                         containerStyle={{ opacity: 1 }}
-                        btnStyle={{ width: 260, height: 45, marginRight: 10 }}
+                        btnStyle={[{ width: 260, height: 45, marginRight: 10 }, isPurchased ? { backgroundColor: dullOrangeColor } : {}]}
                     />
                     <ButtonR2
                         onPress={() => this.handleWishlist(this.bookData, id)}

@@ -15,7 +15,7 @@ function createTimeout() {
 };
 // ----------------------------------------------------------------
 export const handleWishlistAPI = (agent, userToken, bookId) => {
-    console.warn(agent, userToken)
+    console.log(agent, userToken)
     let { timeout, source } = createTimeout();
     return theAxios
         .post(
@@ -31,11 +31,11 @@ export const handleWishlistAPI = (agent, userToken, bookId) => {
         )
         .then(res => {
             clearTimeout(timeout);
-            console.warn(res)
+            console.log(res)
             return res.data
         })
         .catch(err => {
-            console.warn("handleWishlistAPI_catch", err.response.status);
+            console.log("handleWishlistAPI_catch", err.response.status);
             let errorCode = 0;
             if ("response" in err
                 && err.response

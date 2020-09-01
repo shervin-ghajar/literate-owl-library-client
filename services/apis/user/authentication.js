@@ -36,7 +36,7 @@ export const loginAPI = (agent, email, password) => {
             return res.data
         })
         .catch(err => {
-            console.warn("loginAPI_catch", err.response.status);
+            console.log("loginAPI_catch", err.response.status);
             let errorCode = 0;
             if ("response" in err
                 && err.response
@@ -72,7 +72,7 @@ export const signupAPI = (agent, email, username, password) => {
             return res.data
         })
         .catch(err => {
-            console.warn("signupAPI_catch", err.response.status);
+            console.log("signupAPI_catch", err.response.status);
             let errorCode = 0;
             if ("response" in err
                 && err.response
@@ -106,7 +106,7 @@ export const logoutAPI = (agent, userToken) => {
             return res.data
         })
         .catch(err => {
-            console.warn("logoutAPI_catch", err.response.status);
+            console.log("logoutAPI_catch", err.response.status);
             let errorCode = 0;
             if ("response" in err
                 && err.response

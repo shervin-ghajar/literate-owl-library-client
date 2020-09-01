@@ -75,7 +75,7 @@ export default class StackHeader extends Component {
         )
     }
     render() {
-        // console.warn(this.props.scene.route.name)
+        // console.log(this.props.scene.route.name)
         return (
             <View style={[styles.headerContainer, this.props.scene.descriptor.options.headerStyle]}>
                 {this.renderTexts()}

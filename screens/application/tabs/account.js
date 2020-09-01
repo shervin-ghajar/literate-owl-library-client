@@ -37,11 +37,12 @@ class Account extends Component {
     }
     handleCharge() {
         this.setState((state, props) => ({ showChargeModal: !state.showChargeModal, }), () => {
-            this.props.onChargeBalance(this.props.authenticationReducer.userToken, this.state.chargeAmount)
+            this.props.onChargeBalance(this.props.authenticationReducer.userToken, numberJoiner(this.state.chargeAmount))
         })
     }
 
     renderBalance(balance) {
+        balance = numberSeperator(balance)
         return (
             <View style={styles.balanceContainer}>
                 <View>
@@ -97,7 +98,11 @@ class Account extends Component {
                         <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 16 }}>Are you sure you want to log out?</Text>
                         <View style={{ marginTop: 30, flexDirection: "row", justifyContent: 'space-evenly', width: "100%" }}>
                             <ButtonR2
-                                onPress={() => this.props.onLogout(this.props.authenticationReducer.userToken)}
+                                onPress={() => {
+                                    this.setState({ showLogoutModal: false }, () => {
+                                        this.props.onLogout(this.props.authenticationReducer.userToken)
+                                    })
+                                }}
                                 text={"Yes"}
                                 containerStyle={{ width: 120 }}
                             />
@@ -130,7 +135,6 @@ class Account extends Component {
                                 if (chargeAmount != "NaN") {
                                     if (chargeAmount > 0) {
                                         chargeAmount = numberSeperator(chargeAmount)
-                                        console.warn(2, chargeAmount)
                                     }
                                 } else {
                                     chargeAmount = this.state.chargeAmount || ""

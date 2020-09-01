@@ -56,7 +56,6 @@ class Wishlist extends Component {
 
     renderDefault() {
         let books = []
-        console.warn(this.props.booksReducer.wished)
         if (this.props.booksReducer.wished && (this.props.booksReducer.bIdsType == HANDLE_WISHED_BOOKS || this.props.booksReducer.bIdsType == GET_BOOKS_IDS_SUCCESS)) {
             let length = this.props.booksReducer.wished ? this.props.booksReducer.wished.length : 0
             books = this.props.booksReducer.wished.map((bookData, i) => {

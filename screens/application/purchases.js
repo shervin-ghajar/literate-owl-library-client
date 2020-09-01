@@ -25,7 +25,6 @@ class Purchases extends Component {
     }
 
     componentDidMount() {
-        console.warn(222)
         if (this.props.booksReducer.purchased.length != this.props.profileReducer.purchased.length)
             this.handleBooksByIds()
     }

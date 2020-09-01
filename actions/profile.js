@@ -43,12 +43,12 @@ export const getProfile = (userToken) => {
                     dispatch(getProfileSuccess(res.result))
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(getProfileFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn("getProfile-action-catch", err.errorCode)
-                console.warn(err.ecode, err.errorCode)
+                console.log("getProfile-action-catch", err.errorCode)
+                console.log(err.ecode, err.errorCode)
                 if (err.errorCode == 401) {
                     dispatch(authenticationReset())
                     return;
@@ -68,11 +68,11 @@ export const updateProfile = (userToken, username, password) => {
                     dispatch(authenticationReset())
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(updateProfileFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn(err.ecode, err.errorCode)
+                console.log(err.ecode, err.errorCode)
                 if (err.errorCode == 401) {
                     dispatch(authenticationReset())
                     return;
@@ -96,12 +96,12 @@ export const chargeBalance = (userToken, chargeAmount) => {
                     dispatch(chargeBalanceSuccess(res.result))
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(chargeBalanceFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn("chargeBalance-action-catch", err.errorCode)
-                console.warn(err.ecode, err.errorCode)
+                console.log("chargeBalance-action-catch", err.errorCode)
+                console.log(err.ecode, err.errorCode)
                 if (err.errorCode == 401) {
                     dispatch(authenticationReset())
                     return;
@@ -125,12 +125,12 @@ export const purchase = (userToken, bookId) => {
                     dispatch(purchaseSuccess(res.result))
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(purchaseFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn("purchase-action-catch", err.errorCode)
-                console.warn(err.ecode, err.errorCode)
+                console.log("purchase-action-catch", err.errorCode)
+                console.log(err.ecode, err.errorCode)
                 if (err.errorCode == 401) {
                     dispatch(authenticationReset())
                     return;
@@ -144,6 +144,8 @@ export const handleWishlist = (userToken, bookData, bookId) => {
     return dispatch => {
         dispatch(handleWishlistStarted());
         const agent = DeviceInfo.getUniqueId();
+        dispatch(handleWishedBooks(bookData))
+        dispatch(handleWishlistProfile(bookId))
         handleWishlistAPI(agent, userToken, bookId)
             .then(res => {
                 if (res
@@ -151,16 +153,17 @@ export const handleWishlist = (userToken, bookData, bookId) => {
                     && !res.error
                     && 'result' in res
                     && res.result) {
-                    dispatch(handleWishlistSuccess(res.result))
-                    dispatch(handleWishedBooks(bookData))
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
+                dispatch(handleWishlistProfile(bookId))
                 dispatch(handleWishlistFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn("handleWishlist-action-catch", err.errorCode)
-                console.warn(err.ecode, err.errorCode)
+                console.log("handleWishlist-action-catch", err.errorCode)
+                console.log(err.ecode, err.errorCode)
+                dispatch(handleWishedBooks(bookData))
+                dispatch(handleWishlistProfile(bookId))
                 if (err.errorCode == 401) {
                     dispatch(authenticationReset())
                     return;
@@ -234,11 +237,9 @@ const handleWishlistStarted = () => ({
     type: HANDLE_WISHLIST_STARTED
 });
 
-const handleWishlistSuccess = data => ({
+const handleWishlistProfile = data => ({
     type: HANDLE_WISHLIST_SUCCESS,
-    payload: {
-        ...data
-    }
+    payload: data
 });
 
 const handleWishlistFailure = error => ({

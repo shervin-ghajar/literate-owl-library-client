@@ -30,11 +30,9 @@ export const chargeBalanceAPI = (agent, userToken, chargeAmount) => {
         )
         .then(res => {
             clearTimeout(timeout);
-            console.warn(res)
             return res.data
         })
         .catch(err => {
-            console.warn("handleWishlistAPI_catch", err.response.status);
             let errorCode = 0;
             if ("response" in err
                 && err.response

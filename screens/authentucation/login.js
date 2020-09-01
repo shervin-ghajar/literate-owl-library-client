@@ -7,6 +7,7 @@ import Input from '../../components/input';
 import ButtonR1 from '../../components/buttons/buttonR1';
 import { login } from '../../actions';
 import { AUTHENTICATION_STARTED } from '../../actions/types';
+import { showMessage, hideMessage } from "react-native-flash-message";
 //-----------------------------------------------------------------------------------------
 class Login extends Component {
     constructor(props) {

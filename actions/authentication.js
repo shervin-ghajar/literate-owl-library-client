@@ -14,6 +14,8 @@ import {
 import NavigationService from '../services/navigators';
 import DeviceInfo from 'react-native-device-info';
 import { loginAPI, signupAPI, logoutAPI } from "../services/apis/user/authentication";
+import { greyBlueBackground, whiteColor, errorColor, dullOrangeColor } from "../assets/colors";
+import { showMessage, hideMessage } from "react-native-flash-message";
 // ----------------------------------------------------------------
 export const login = (email, password) => {
     return dispatch => {
@@ -29,14 +31,41 @@ export const login = (email, password) => {
                     && res.result.profile) {
                     dispatch(authenticationSuccess({ userToken: res.result.token, agent }));
                     dispatch(getProfileSuccess(res.result.profile))
-                    console.warn(res.result.profile)
+                    let { username } = res.result.profile
+                    showMessage({
+                        message: `Welcome back ${username}`,
+                        type: 'none',
+                        duration: 4000,
+                        backgroundColor: greyBlueBackground,
+                        textStyle: {
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 15
+                        },
+                        color: whiteColor
+                    });
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(authenticationFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn(err.ecode, err.errorCode)
+                // console.log(err.ecode, err.errorCode)
+                // console.log("err.errorCode", err.errorCode)
+                switch (err.errorCode) {
+                    case 404:
+                        showMessage({
+                            message: 'User not found!',
+                            type: 'none',
+                            duration: 5000,
+                            backgroundColor: dullOrangeColor,
+                            textStyle: {
+                                fontFamily: "Roboto-Bold",
+                                fontSize: 15
+                            },
+                            color: whiteColor
+                        });
+                        break;
+                }
                 dispatch(authenticationFailure(err.ecode));
             });
     };
@@ -59,13 +88,37 @@ export const signup = (email, username, password) => {
                         purchased: [],
                     }
                     dispatch(getProfileSuccess(profile))
+                    showMessage({
+                        message: `Welcome ${username}`,
+                        type: 'none',
+                        duration: 4000,
+                        backgroundColor: greyBlueBackground,
+                        textStyle: {
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 15
+                        },
+                        color: whiteColor
+                    });
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(authenticationFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn(err.ecode, err.errorCode)
+                // console.log(err.ecode, err.errorCode)
+                if (err.errorCode == 409) {
+                    showMessage({
+                        message: 'User already exist!',
+                        type: 'none',
+                        duration: 5000,
+                        backgroundColor: dullOrangeColor,
+                        textStyle: {
+                            fontFamily: "Roboto-Bold",
+                            fontSize: 15
+                        },
+                        color: whiteColor
+                    });
+                }
                 dispatch(authenticationFailure(err.ecode));
             });
     };
@@ -81,11 +134,11 @@ export const logout = (userToken) => {
                     dispatch(authenticationReset())
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(logoutFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn(err.ecode, err.errorCode)
+                // console.log(err.ecode, err.errorCode)
                 dispatch(logoutFailure(err.ecode));
             });
     };

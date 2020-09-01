@@ -16,13 +16,14 @@ import { persistor, store } from './services/store';
 
 import Stacks from './navigations/stacks';
 import { primaryBackground } from './assets/colors';
+import FlashMessage from "react-native-flash-message";
 //------------------------------------------------------------------------------------------
 class App extends Component {
 
   componentDidMount() {
     // NetInfo.addEventListener(state => {
-    //   console.warn("Connection type", state.type);
-    //   console.warn("Is connected?", state.isConnected);
+    //   console.log("Connection type", state.type);
+    //   console.log("Is connected?", state.isConnected);
     // });
   }
 
@@ -37,6 +38,7 @@ class App extends Component {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor} onBeforeLift={this.onBeforeLift}>
           <Stacks />
+          <FlashMessage ref="myLocalFlashMessage" />
         </PersistGate>
       </Provider>
     );

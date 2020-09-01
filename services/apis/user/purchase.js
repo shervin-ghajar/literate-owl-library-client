@@ -30,11 +30,11 @@ export const purchaseAPI = (agent, userToken, bookId) => {
         )
         .then(res => {
             clearTimeout(timeout);
-            console.warn(res)
+            console.log(res)
             return res.data
         })
         .catch(err => {
-            console.warn("purchaseAPI_catch", err.response.status);
+            console.log("purchaseAPI_catch", err.response.status);
             let errorCode = 0;
             if ("response" in err
                 && err.response

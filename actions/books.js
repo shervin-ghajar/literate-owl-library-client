@@ -39,12 +39,12 @@ export const getAllBooks = (userToken) => {
                     dispatch(getAllBooksSuccess(res.result))
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(getAllBooksFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn("getAllBooks-action-catch", err.response)
-                console.warn(err.ecode, err.errorCode)
+                console.log("getAllBooks-action-catch", err.response)
+                console.log(err.ecode, err.errorCode)
                 if (err.errorCode == 401) {
                     dispatch(authenticationReset())
                     return;
@@ -68,12 +68,12 @@ export const getScrollableBooks = (userToken, queryType, scrollId, genres) => {
                     dispatch(getScrollableBooksSuccess({ scrollId: res.result.scrollId, books: res.result.books, }))
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(getScrollableBooksFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn("getScrollableBooks-action-catch", err.response)
-                console.warn(err.ecode, err.errorCode)
+                console.log("getScrollableBooks-action-catch", err.response)
+                console.log(err.ecode, err.errorCode)
                 if (err.errorCode == 401) {
                     dispatch(authenticationReset())
                     return;
@@ -106,12 +106,12 @@ export const getBooksByIds = (userToken, ids, idsType) => {
                     dispatch(getBooksByIdsSuccess({ books: res.result, idsType }))
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(getBooksByIdsFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn("getBooksByIds-action-catch", err.response)
-                console.warn(err.ecode, err.errorCode)
+                console.log("getBooksByIds-action-catch", err.response)
+                console.log(err.ecode, err.errorCode)
                 if (err.errorCode == 401) {
                     dispatch(authenticationReset())
                     return;
@@ -135,12 +135,12 @@ export const search = (userToken, query) => {
                     dispatch(searchSuccess({ books: res.result }))
                     return;
                 }
-                console.warn("BAD_RESPONSE")
+                console.log("BAD_RESPONSE")
                 dispatch(searchFailure("BAD_RESPONSE"));
             })
             .catch(err => {
-                console.warn("search-action-catch", err.response)
-                console.warn(err.ecode, err.errorCode)
+                console.log("search-action-catch", err.response)
+                console.log(err.ecode, err.errorCode)
                 if (err.errorCode == 401) {
                     dispatch(authenticationReset())
                     return;

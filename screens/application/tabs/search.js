@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import Input from '../../../components/input';
-import { primaryBackground } from '../../../assets/colors';
+import { primaryBackground, grayColor, dullOrangeColor } from '../../../assets/colors';
 import CardB2 from '../../../components/cards/cardB2';
 import { search } from '../../../actions';
+import { SEARCH_SUCCESS, SEARCH_STARTED } from '../../../actions/types';
+import Loading from '../../../components/loading';
 
 class Search extends Component {
     constructor(props) {
@@ -19,13 +21,16 @@ class Search extends Component {
         //     this.inputRef.focus()
         // })
     }
+    renderWithLoading() {
+        return <Loading style={{ justifyContent: "flex-start", }} />
+    }
 
     queryQueue(query) {
         let trimQuery = query.trim()
         if (trimQuery.length >= 3) {
             this.queryTimeout = setTimeout(() => {
                 this.props.onSearch(this.props.authenticationReducer.userToken, query)
-            }, 500);
+            }, 50);
         }
     }
 
@@ -38,36 +43,39 @@ class Search extends Component {
 
     renderSearchResults() {
         let books = []
-        let length = this.props.booksReducer.search.length
-        books = this.props.booksReducer.search.map((bookData, i) => {
-            let { id, title, authors, price, rating, rating_count, image_url } = bookData
-            return (
-                <CardB2
-                    key={id}
-                    onCardBPress={() => { this.props.navigation.navigate("BookDetails", { bookData }) }}
-                    imageSource={image_url}
-                    first_text={title}
-                    second_text={authors[0]}
-                    third_text={price}
-                    fourth_text={rating_count}
-                    star_count={rating}
-                    ratingTintColor={primaryBackground}
-                    cardContainerStyle={length == i + 1 ? { borderBottomWidth: 0 } : {}}
-                />
-            )
-        })
+        let booksLength = this.props.booksReducer.search.length
+        if (this.props.booksReducer.srchRType == SEARCH_STARTED) {
+            return this.renderWithLoading()
+        } else if (this.props.booksReducer.srchRType == SEARCH_SUCCESS) {
+            books = this.props.booksReducer.search.map((bookData, i) => {
+                let { id, title, authors, price, rating, rating_count, image_url } = bookData
+                return (
+                    <CardB2
+                        key={id}
+                        onCardBPress={() => { this.props.navigation.navigate("BookDetails", { bookData }) }}
+                        imageSource={image_url}
+                        first_text={title}
+                        second_text={authors[0]}
+                        third_text={price}
+                        fourth_text={rating_count}
+                        star_count={rating}
+                        ratingTintColor={primaryBackground}
+                        cardContainerStyle={booksLength == i + 1 ? { borderBottomWidth: 0 } : {}}
+                    />
+                )
+            })
+        }
         return (
             <ScrollView>
-
                 <View style={styles.resultContainer}>
                     {
-                        length ?
-                            books :
-                            (
-                                this.state.firstQueryTime && this.state.query && this.state.query != "" ?
-                                    <Text style={{ width: 300, textAlign: "center", alignSelf: "center", fontFamily: 'Roboto-Regular', fontSize: 16 }}>No result found</Text>
-                                    : null
-                            )
+                        booksLength > 0 ?
+                            books
+                            :
+                            this.props.booksReducer.srchRType == SEARCH_SUCCESS ?
+                                <Text style={{ width: 300, textAlign: "center", alignSelf: "center", fontFamily: 'Roboto-Regular', fontSize: 16, color: dullOrangeColor }}>No result found</Text>
+                                : null
+
                     }
                 </View>
             </ScrollView>
@@ -84,9 +92,9 @@ class Search extends Component {
                     ref={(ref) => this.inputRef = ref}
                     placeholder={"Search for titles or authors"}
                     style={styles.input}
-                    onEndEditing={(e) => {
-                        this.handleQueryChange(e.nativeEvent.text)
-                    }}
+                    // onEndEditing={(e) => {
+                    //     this.handleQueryChange(e.nativeEvent.text)
+                    // }}
                     onChangeText={query => {
                         this.handleQueryChange(query)
                     }}

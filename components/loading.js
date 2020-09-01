@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { greyBlueColor } from '../assets/colors';
 
-const Loading = ({ size, color }) => (
-    <View style={styles.view}>
+const Loading = ({ size, color, style }) => (
+    <View style={[styles.view, style]}>
         <ActivityIndicator size={size || 'large'} color={color || greyBlueColor} />
     </View>
 );

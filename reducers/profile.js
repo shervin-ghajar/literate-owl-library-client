@@ -120,10 +120,16 @@ export function profileReducer(state = initialState, action) {
                 error: null
             };
         case HANDLE_WISHLIST_SUCCESS:
+            let tmp = state.wishlist
+            let newWishList = tmp
+            if (tmp && tmp.length > 0) {
+                let isWishlisted = tmp.includes(action.payload)
+                newWishList = isWishlisted ? tmp.filter(el => el != action.payload) : [action.payload, ...tmp]
+            }
             return {
                 ...state,
                 rtype: HANDLE_WISHLIST_SUCCESS,
-                wishlist: action.payload.wishlist,
+                wishlist: newWishList,
                 error: null
             };
         case HANDLE_WISHLIST_FAILURE_VALIDATION:

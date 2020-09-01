@@ -22,7 +22,7 @@ class Profile extends PureComponent {
 
     // componentDidMount() {
     //     let {username,email}=this.props.profileReducer
-    //     console.warn(this.props.profileReducer)
+    //     console.log(this.props.profileReducer)
     // }
 
 
@@ -60,7 +60,9 @@ class Profile extends PureComponent {
     render() {
         return (
             <ScrollView contentContainerStyle={styles.scrollView}>
-                <View style={styles.formsContainer}>
+                <View style={styles.formsContainer}
+                    pointerEvents={'none'}
+                >
                     <Input
                         value={this.state.email}
                         labelTitle={"E-mail Address"}
@@ -85,7 +87,7 @@ class Profile extends PureComponent {
                         value={this.state.newPassword}
                         labelTitle={"Password"}
                         isSecure={this.state.isSecure}
-                        hasSecureEye
+                        // hasSecureEye
                         onPressSecureEye={() => this.setState((state) => ({ isSecure: !state.isSecure }))}
                         onEndEditing={(e) => {
                             let newPassword = (e.nativeEvent.text).trim()

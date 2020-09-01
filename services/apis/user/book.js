@@ -32,8 +32,8 @@ export const getAllBooksAPI = (agent, userToken) => {
             return res.data
         })
         .catch(err => {
-            console.warn(err)
-            console.warn("getAllBooksAPI_catch", err.response);
+            console.log(err)
+            console.log("getAllBooksAPI_catch", err.response);
             let errorCode = 0;
             if ("response" in err
                 && err.response
@@ -72,8 +72,8 @@ export const getScrollableBooksAPI = (agent, userToken, queryType, scrollId, gen
             return res.data
         })
         .catch(err => {
-            console.warn(err)
-            console.warn("getScrollableBooksAPI_catch", err.response);
+            console.log(err)
+            console.log("getScrollableBooksAPI_catch", err.response);
             let errorCode = 0;
             if ("response" in err
                 && err.response
@@ -107,12 +107,12 @@ export const getBooksByIdsAPI = (agent, userToken, ids) => {
         )
         .then(res => {
             clearTimeout(timeout);
-            console.warn(res.data)
+            console.log(res.data)
             return res.data
         })
         .catch(err => {
-            console.warn(err)
-            console.warn("getBooksByIdsAPI_catch", err.response);
+            console.log(err)
+            console.log("getBooksByIdsAPI_catch", err.response);
             let errorCode = 0;
             if ("response" in err
                 && err.response
@@ -149,8 +149,8 @@ export const searchAPI = (agent, userToken, query) => {
             return res.data
         })
         .catch(err => {
-            console.warn(err)
-            console.warn("searchAPI_catch", err.response);
+            console.log(err)
+            console.log("searchAPI_catch", err.response);
             let errorCode = 0;
             if ("response" in err
                 && err.response
