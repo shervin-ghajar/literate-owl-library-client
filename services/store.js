@@ -18,10 +18,13 @@ const persistConfig = {
     storage: AsyncStorage,
     stateReconciler: autoMergeLevel2, // see "Merge Process" section for details.
     blacklist: ['navigation'],
-    whitelist: ['syncReducer', 'getProfileReducer', 'loginReducer'],
+    whitelist: [
+        // 'syncReducer', 
+        // 'getProfileReducer', 
+        'authenticationReducer'],
     transforms: [
-        createBlacklistFilter('loginReducer', ['rtype', 'error', 'isNewCustomer']),
-        createBlacklistFilter('getProfileReducer', ['rtype', 'error']),
+        createBlacklistFilter('authenticationReducer', ['rtype', 'error']),
+        // createBlacklistFilter('getProfileReducer', ['rtype', 'error']),
     ]
 };
 

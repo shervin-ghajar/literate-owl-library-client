@@ -1011,7 +1011,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@react-native-community/async-storage@^1.11.0":
+"@react-native-community/async-storage@1.11.0":
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.11.0.tgz#bf81b8813080846f150c67f531987c429b442166"
   integrity sha512-Pq9LlmvtCEKAGdkyrgTcRxNh2fnHFykEj2qnRYijOl1pDIl2MkD5IxaXu5eOL0wgOtAl4U//ff4z40Td6XR5rw==
@@ -1159,7 +1159,7 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-5.9.4.tgz#a05a9403f8ee09c7d7f7c2dda850b79cac376691"
   integrity sha512-mb664NOqPvyUZ4TznzdYEfdS3OhSXWGbZprgsDZn4THw2X/4wcBFcBUeWuMzeQ56KhY0rm/YBBlZWHrSf3C/Aw==
 
-"@react-navigation/bottom-tabs@^5.6.1":
+"@react-navigation/bottom-tabs@5.6.1":
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.6.1.tgz#f4aa23913a0c26ec3dd4dc268cd83e3d0e5f4dc4"
   integrity sha512-aAqA4lCaa1x3cEWwEyUJ5hBPpVuv/TR0Q0Y/hkBgI2+h27Xdv9B/ZemMIjMWTNDZTjbYXTsJ41AJbVQnPSVTrg==
@@ -1194,7 +1194,7 @@
   dependencies:
     nanoid "^3.1.9"
 
-"@react-navigation/stack@^5.6.2":
+"@react-navigation/stack@5.6.2":
   version "5.6.2"
   resolved "https://registry.yarnpkg.com/@react-navigation/stack/-/stack-5.6.2.tgz#d2371f9ffdcf3eee26245697d0947c9722542f38"
   integrity sha512-51Aasxg8j2eKxz4mhA0ajJXrhAyJQkk2iiNE511zcqJ3tlfxv/h70Eej3PetnbbHFMOwNsEwc2GjB3OnfQcxjQ==
@@ -4505,6 +4505,11 @@ lodash@^4.17.10, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.3.
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
+lodash@^4.17.4:
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
+
 log-symbols@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-2.2.0.tgz#5740e1c5d6f0dfda4ad9323b5332107ef6b4c40a"
@@ -5520,7 +5525,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5589,6 +5594,19 @@ react-native-device-info@5.6.1:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.6.1.tgz#3ae88d8659b7b64d204dbfc39f69126b769363d4"
   integrity sha512-FxjenoDZJKT53pp/Tl5gMsw5DA82Y5tOuySQlKS5AaDmw+Bu6EqEJjt0z4TRhJOVoqVJ35oCiZ3xViVbz/hB0w==
 
+react-native-fast-image@8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.3.2.tgz#e9db271b70b9634b7be054760914d80954f9898c"
+  integrity sha512-AJ0b4BEswRwa0bh4SibYUtXszEiaO88Lf4CZ1ib+t5ZfkAgsMk9Liv3L0LYnDblMJmSeGTr1+2ViIM8F2vamjg==
+
+react-native-flash-message@^0.1.16:
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/react-native-flash-message/-/react-native-flash-message-0.1.16.tgz#4f23c8c60927ed3c325d90f1a4c1bbe0923a4ba6"
+  integrity sha512-d+c6zWQDNvnZ5S0BDa10yB/0/rLMXTtYYjIOyad0Y+/G6h289qB1Hyc9twgvrpv/fEaKW+m5vxCBGHustII+rA==
+  dependencies:
+    prop-types "^15.7.2"
+    react-native-iphone-x-helper "^1.2.1"
+
 react-native-gesture-handler@1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.6.1.tgz#678e2dce250ed66e93af409759be22cd6375dd17"
@@ -5603,6 +5621,19 @@ react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
+
+react-native-linear-gradient@2.5.6:
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
+  integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
+
+react-native-ratings@7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-7.2.0.tgz#8523e98868470855ec1d2feb112e466e17a1fd9f"
+  integrity sha512-oSrkQ4rnpYjCw+d6MPJQghXfrfb3uQKoTJx1exdk7xqzw4jnv3pyu0PAuxCDJk/rfDSD/sirIAudz+zdGxrBog==
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
 
 react-native-reanimated@1.9.0:
   version "1.9.0"

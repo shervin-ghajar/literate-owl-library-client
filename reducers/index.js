@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
 // ----------------------------------------------------------------
-import { authenticationReducer } from './authentictionReducer';
+import { authenticationReducer } from './authentication';
+import { profileReducer } from './profile'
+import { booksReducer } from './books';
 // ----------------------------------------------------------------
 const appReducer = combineReducers({
-    authenticationReducer,
+    authenticationReducer, profileReducer, booksReducer
 });
 
 const initialState = appReducer({}, {})
 
 const rootReducer = (state, action) => {
-    if (action.type === 'LOGOUT_SUCCESS') {
+    if (action.type === 'AUTHENTICATION_RESET') {
         state = initialState
     }
     return appReducer(state, action)

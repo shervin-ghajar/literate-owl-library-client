@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Text, View, Image, StyleSheet } from 'react-native';
-import { primaryBackground, dullOrange, greyBlue } from '../assets/colors';
+import { primaryBackground, dullOrangeColor, greyBlueColor } from '../assets/colors';
 //----------------------------------------------------------------
 const Intro = ({
     params,
@@ -9,8 +9,8 @@ const Intro = ({
         <View style={styles.view}>
             <Image source={require('../assets/images/intro-icon.png')} style={styles.icon} />
             <View style={styles.titleContainer}>
-                <Text style={[styles.text, { color: dullOrange }]}>Literate Owl</Text>
-                <Text style={[styles.text, { color: greyBlue }]}> Library</Text>
+                <Text style={[styles.text, { color: dullOrangeColor }]}>Literate Owl</Text>
+                <Text style={[styles.text, { color: greyBlueColor }]}> Library</Text>
             </View>
         </View>
     );
