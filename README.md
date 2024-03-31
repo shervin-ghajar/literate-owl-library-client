@@ -2,6 +2,17 @@
 
 Welcome to the Literate Owl Library, your go-to destination for all things books! This mobile application is designed to provide users with an immersive online book shopping experience. Whether you're searching for a specific title, browsing by category, or looking to discover new reads, the Literate Owl Library has you covered.
 
+# Screenshots
+<div align="center">  
+    <img src="screenshots/intro.png" alt="intro" width="150" >
+    <img src="screenshots/LogIn _ Input 2.png" alt="main" width="150" >
+    <img src="screenshots/SignUp _ Input 3.png" alt="step_1" width="150" >
+    <img src="screenshots/Home _ Genres.png" alt="step_2" width="150" >
+    <img src="screenshots/Home _ Book Info _ Bookmarked.png" alt="end" width="150" >
+    <img src="screenshots/Search.png" alt="end" width="150" >
+    <img src="screenshots/Profile.png" alt="end" width="150" >
+</div>
+
 ## Features
 - **User Authentication:** Users can sign up or log in to their accounts securely with JWT authentication.
 - **Book Search:** Search for books by name, author, category, or any other relevant criteria.
@@ -47,7 +58,7 @@ Welcome to the Literate Owl Library, your go-to destination for all things books
 Contributions to this project are welcome! If you'd like to contribute, please fork the repository and submit a pull request with your changes.
 
 ## Credits
-This project was developed by [Your Name]. Special thanks to [Any collaborators or resources you'd like to acknowledge].
+This project was developed by Shervin Ghajar. Special thanks to [Any collaborators or resources you'd like to acknowledge].
 
 ## License
 This project is licensed under the [MIT License](/LICENSE).
