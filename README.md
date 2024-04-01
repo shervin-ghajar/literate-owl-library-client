@@ -26,17 +26,18 @@ Welcome to the Literate Owl Library, your go-to destination for all things books
 
 ## Technologies Used
 ### Client Side
-- React Native
-- React Navigation
-- Redux
-- Redux Thunk
+- React Native: 0.62.2
+- React Navigation: 5.6.1
+- React Redux: 7.2.0
+- Redux: 4.0.5
+- Redux Thunk: 2.3.0
 
 ### Server Side
-- Node.js
-- Express.js
-- JWT Authentication
-- Redis (for token storage and caching)
-- ElasticSearch (as a database for storing books and user information)
+- Node.js: ^12.x
+- Express.js: 4.17.1
+- JWT Authentication: 8.5.1
+- Redis (for token storage and caching): 3.0.2
+- ElasticSearch (as a database for storing books and user information): 7.6.1
 ### Data Source
 - **Goodreads Dataset:** The application utilizes a dataset obtained from Kaggle, which was originally gathered from Goodreads. This dataset contains information on over 10,000 books, including titles, authors, ratings, and more. You can find the dataset [here][kaggle-url].
 
