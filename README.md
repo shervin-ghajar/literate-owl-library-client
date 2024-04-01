@@ -25,14 +25,14 @@ Welcome to the Literate Owl Library, your go-to destination for all things books
 - **Profile Management:** Edit your profile information, track your order history, and manage your preferences with ease.
 
 ## Technologies Used
-### Client Side
+### Frontend
 - React Native: 0.62.2
 - React Navigation: 5.6.1
 - React Redux: 7.2.0
 - Redux: 4.0.5
 - Redux Thunk: 2.3.0
 
-### Server Side
+### [Backend][lol-backend]
 - Node.js: ^12.x
 - Express.js: 4.17.1
 - JWT Authentication: 8.5.1
@@ -78,3 +78,5 @@ This project is licensed under the [MIT License](/LICENSE).
 
 [gmail-shield]: https://shields.io/badge/Gmail-white?logo=gmail
 [gmail-url]: ssghajar.work@gmail.com
+
+[lol-backend]: https://github.com/shervin-ghajar/literate-owl-library-backend]
