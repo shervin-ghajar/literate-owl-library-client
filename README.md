@@ -79,4 +79,4 @@ This project is licensed under the [MIT License](/LICENSE).
 [gmail-shield]: https://shields.io/badge/Gmail-white?logo=gmail
 [gmail-url]: ssghajar.work@gmail.com
 
-[lol-backend]: https://github.com/shervin-ghajar/literate-owl-library-backend]
+[lol-backend]: https://github.com/shervin-ghajar/literate-owl-library-backend
