@@ -18,12 +18,11 @@ Welcome to the Literate Owl Library, your go-to destination for all things books
 
 ## Features
 - **User Authentication:** Users can sign up or log in to their accounts securely with JWT authentication.
-- **Book Search:** Search for books by name, author, category, or any other relevant criteria.
-- **Book Browsing:** Browse through a vast collection of books from various genres and categories.
-- **Book Viewing:** View detailed information about each book, including its title, author, description, and more.
-- **Bookmarking:** Save your favorite books for later by bookmarking them.
-- **Book Purchasing:** Purchase books directly from the app for convenient online shopping.
-- **Profile Management:** Users can edit their profiles, update personal information, and manage account settings.
+- **Search and Browse:** Easily search for specific titles or browse through various categories to discover new reads.
+- **Book Details:** Access detailed information about each book, including synopsis, author details, and user ratings.
+- **Bookmarking:** Save your favorite books for easy access later and create personalized reading lists.
+- **Purchase:** Seamlessly purchase books directly from the app and enjoy hassle-free checkout.
+- **Profile Management:** Edit your profile information, track your order history, and manage your preferences with ease.
 
 ## Technologies Used
 ### Client Side
